@@ -48,14 +48,17 @@ body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:var(--b
 @media(max-width:420px){.features{grid-template-columns:1fr}.feat{padding:14px}}
 
 /* TOP BAR — всегда видна, sticky для iframe */
-.top-bar{position:sticky;top:0;left:0;right:0;z-index:7500;background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
-.top-bar-inner{max-width:680px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:8px 20px;font-size:12px;font-weight:500}
-.top-bar-viewers{display:flex;align-items:center;gap:5px;color:var(--sub)}
-.v-dot{width:6px;height:6px;background:#34c759;border-radius:50%;animation:vp 2s ease infinite;flex-shrink:0}
+.top-bar{position:sticky;top:0;left:0;right:0;z-index:7500;background:var(--card);border-bottom:1px solid var(--border)}
+.top-bar-viewers{display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 20px;font-size:13px;font-weight:600;color:var(--text)}
+.v-dot{width:7px;height:7px;background:#34c759;border-radius:50%;animation:vp 2s ease infinite;flex-shrink:0}
 @keyframes vp{0%,100%{opacity:1}50%{opacity:.3}}
-.top-bar-activity{color:#E08A00;animation:actFade 2.5s ease infinite;display:none}
-.top-bar-activity.vis{display:block}
-@keyframes actFade{0%,100%{opacity:.4}50%{opacity:1}}
+.top-bar-marquee{overflow:hidden;background:linear-gradient(90deg,#fff8f0,#fff3e6);border-top:1px solid rgba(245,166,35,.1);padding:6px 0;display:none}
+.top-bar-marquee.vis{display:block}
+.marquee-track{display:flex;gap:48px;animation:marqueeScroll 60s linear infinite;white-space:nowrap;width:max-content}
+.marquee-item{font-size:12px;font-weight:600;color:#D48800;display:flex;align-items:center;gap:5px}
+.marquee-dot{width:5px;height:5px;background:#E08A00;border-radius:50%;animation:mDot 1.5s ease infinite}
+@keyframes mDot{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes marqueeScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
 /* ГАРАНТИЯ */
 .guarantee-block{margin-top:20px;background:var(--accent-soft);border-radius:14px;padding:18px 20px;text-align:center}
@@ -180,9 +183,9 @@ body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:var(--b
 
 <!-- TOP BAR -->
 <div class="top-bar" id="top-bar">
-  <div class="top-bar-inner">
-    <div class="top-bar-viewers"><span class="v-dot"></span><span id="vc">8</span> человек сейчас на странице</div>
-    <div class="top-bar-activity" id="top-activity"><span id="activity-text">Кто-то оформляет заказ...</span></div>
+  <div class="top-bar-viewers"><span class="v-dot"></span><span id="vc">8</span> человек сейчас на странице</div>
+  <div class="top-bar-marquee" id="top-marquee">
+    <div class="marquee-track" id="marquee-track"></div>
   </div>
 </div>
 
@@ -476,20 +479,25 @@ setTimeout(function(){if(!ov)showT(nn())},210000);
 
 if(st.on){showOff()}else{setTimeout(showOff,120000)}
 
-/* ACTIVITY INDICATOR — cycles between toasts */
-var actMsgs=['Кто-то сейчас оформляет заказ...','Место оформляется, поторопитесь...','Кто-то сейчас записывается...'];
-var actEl=$('top-activity'),actTxt=$('activity-text'),actIdx=0,actTimer=null;
+/* MARQUEE ACTIVITY */
+var mNames=['Ольга','Анна','Екатерина','Мария','Наталья','Ирина','Елена','Светлана','Татьяна','Юлия','Дарья','Алина','Виктория','Ксения','Марина'];
+var mTimes=['только что','1 мин назад','2 мин назад','3 мин назад','5 мин назад','7 мин назад'];
+var marqueeEl=$('top-marquee'),trackEl=$('marquee-track');
+function shuffleArr(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
 function startActivity(){
   if(!ov)return;
-  actEl.classList.add('vis');
-  actIdx=Math.floor(Math.random()*actMsgs.length);
-  actTxt.textContent=actMsgs[actIdx];
-  actTimer=setInterval(function(){
-    actIdx=(actIdx+1)%actMsgs.length;
-    actTxt.textContent=actMsgs[actIdx];
-  },8000);
+  var names=shuffleArr(mNames.slice());
+  var html='';
+  for(var r=0;r<3;r++){
+    for(var i=0;i<names.length;i++){
+      var t=mTimes[Math.min(i,mTimes.length-1)];
+      html+='<span class="marquee-item"><span class="marquee-dot"></span>'+names[i]+' записалась · '+t+'</span>';
+    }
+  }
+  trackEl.innerHTML=html;
+  marqueeEl.classList.add('vis');
 }
-function pauseActivity(){if(actTimer){clearInterval(actTimer);actTimer=null}actEl.classList.remove('vis')}
+function pauseActivity(){marqueeEl.classList.remove('vis')}
 /* Start activity 15s after offer appears */
 var origShowOff=showOff;
 
