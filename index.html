@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <link rel="preconnect" href="https://kinescope.io">
 <link rel="preconnect" href="https://player.kinescope.io">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
@@ -29,19 +29,14 @@ body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:var(--b
 .vid-ratio{position:relative;width:100%;padding-top:56.25%}
 #kinescope-player-wrap{position:absolute;top:0;left:0;width:100%;height:100%}
 #kinescope-player-wrap iframe{width:100%!important;height:100%!important;border:none}
-.vid-poster{position:absolute;top:0;left:0;width:100%;height:100%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;transition:opacity .4s}
-.vid-poster.hidden{opacity:0;pointer-events:none}
-.vid-poster-btn{width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(0,0,0,.3);transition:transform .2s}
-.vid-poster-btn:hover{transform:scale(1.1)}
-.vid-poster-btn svg{width:24px;height:24px;fill:#1a1a1a;margin-left:3px}
 
-/* СТРЕЛКА */
-.vid-outer{position:relative;margin-bottom:24px}
-.play-hint{position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--border);border-radius:100px;padding:8px 20px;box-shadow:0 4px 20px rgba(0,0,0,.06);z-index:3;white-space:nowrap;animation:hintPulse 3s ease infinite}
-@keyframes hintPulse{0%,100%{box-shadow:0 4px 20px rgba(0,0,0,.06)}50%{box-shadow:0 4px 24px rgba(45,140,255,.2)}}
-.play-hint-dot{width:28px;height:28px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center}
-.play-hint-dot svg{width:12px;height:12px;fill:#fff;margin-left:2px}
-.play-hint span{font-size:13px;font-weight:600;color:var(--text)}
+/* МЕТКА НАД ВИДЕО */
+.watch-label{display:flex;align-items:center;justify-content:center;gap:8px;margin:0 auto 14px;padding:10px 22px;background:var(--card);border:1px solid var(--border);border-radius:100px;box-shadow:0 4px 20px rgba(0,0,0,.06);width:fit-content;animation:labelPulse 3s ease infinite}
+@keyframes labelPulse{0%,100%{box-shadow:0 4px 20px rgba(0,0,0,.06)}50%{box-shadow:0 4px 24px rgba(45,140,255,.18)}}
+.watch-label-dot{width:28px;height:28px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.watch-label-dot svg{width:12px;height:12px;fill:#fff;margin-left:2px}
+.watch-label span{font-size:14px;font-weight:600;color:var(--text)}
+.vid-outer{margin-bottom:24px}
 .vpn-hint{text-align:center;font-size:12px;color:var(--sub);margin-top:24px;opacity:.6}
 
 /* ФИЧИ */
@@ -87,7 +82,7 @@ body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:var(--b
 .btn-main{display:block;width:100%;max-width:360px;margin:0 auto;padding:18px 24px;font-size:17px;font-weight:700;color:#fff;background:var(--accent);border:none;border-radius:14px;cursor:pointer;transition:all .2s;font-family:inherit;letter-spacing:-.01em}
 .btn-main:hover{transform:scale(1.02);box-shadow:0 8px 32px rgba(45,140,255,.35)}
 .btn-main:active{transform:scale(.98)}
-.offer-help{display:block;margin-top:10px;font-size:13px;color:var(--accent);text-decoration:none;cursor:pointer;font-weight:500;opacity:.8;transition:opacity .2s}
+.offer-help{display:block;margin-top:20px;font-size:13px;color:var(--accent);text-decoration:none;cursor:pointer;font-weight:500;opacity:.8;transition:opacity .2s}
 .offer-help:hover{opacity:1}
 .offer-bottom{display:none}
 .offer-bottom.vis{display:block}
@@ -117,9 +112,9 @@ body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:var(--b
 .faq-btn-tg{background:#2AABEE;text-decoration:none;color:#fff}
 
 /* STICKY */
-.sticky{position:fixed;bottom:0;left:0;right:0;background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:12px 20px;z-index:8000;display:none;align-items:center;justify-content:center;gap:12px}
+.sticky{position:fixed;bottom:env(safe-area-inset-bottom,0);left:0;right:0;background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:12px 20px calc(12px + env(safe-area-inset-bottom,0));z-index:8000;display:none;align-items:center;justify-content:center;gap:12px}
 .sticky.vis{display:flex}
-.sticky-btn{padding:14px 28px;font-size:15px;font-weight:700;color:#fff;background:var(--accent);border:none;border-radius:12px;cursor:pointer;font-family:inherit;transition:all .2s;flex-shrink:0}
+.sticky-btn{padding:14px 20px;font-size:14px;font-weight:700;color:#fff;background:var(--accent);border:none;border-radius:12px;cursor:pointer;font-family:inherit;transition:all .2s;flex-shrink:1;max-width:300px;text-align:center;line-height:1.3}
 .sticky-btn:active{transform:scale(.96)}
 .sticky-g{font-size:11px;color:var(--sub);max-width:120px;line-height:1.3;font-weight:500}
 
@@ -195,39 +190,37 @@ body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:var(--b
   <h1 class="hero-t">Ни подруги, ни статьи, ни даже психолог не дали ответ — <em>почему он стал чужим?</em></h1>
   <p class="hero-cta">Приходите на диагностику отношений</p>
 
-  <div class="features">
-    <div class="feat">
-      <div class="feat-icon">🔬</div>
-      <div class="feat-text"><b>Тест по 6 сферам</b> — находит, где именно сломалось</div>
-    </div>
-    <div class="feat">
-      <div class="feat-icon">🎯</div>
-      <div class="feat-text"><b>Колесо отношений</b> — наглядная карта вашей пары</div>
-    </div>
-    <div class="feat">
-      <div class="feat-icon">🛠</div>
-      <div class="feat-text"><b>Набор инструментов</b> — подобран под вас лично</div>
-    </div>
-    <div class="feat">
-      <div class="feat-icon">📋</div>
-      <div class="feat-text"><b>План на 2–3 месяца</b> — конкретные шаги, не советы</div>
-    </div>
+  <div class="watch-label">
+    <div class="watch-label-dot"><svg viewBox="0 0 24 24"><path d="M12 4v12m0 0l-4-4m4 4l4-4" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div>
+    <span>Смотрите видео. Татьяна объяснит</span>
   </div>
 
   <div class="vid-outer">
     <div class="vid-wrap" id="vid-wrap">
       <div class="vid-ratio">
         <div id="kinescope-player-wrap"></div>
-        <div class="vid-poster" id="vid-poster">
-          <div class="vid-poster-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-        </div>
       </div>
     </div>
-    <div class="play-hint" id="watch-hint">
-      <div class="play-hint-dot"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-      <span>Смотрите — Татьяна объяснит</span>
-    </div>
     <div class="vpn-hint">Видео не загружается? Отключите VPN</div>
+  </div>
+
+  <div class="features">
+    <div class="feat">
+      <div class="feat-icon">🔬</div>
+      <div class="feat-text"><b>Тест по 6 сферам</b>: находит, где именно сломалось</div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">🎯</div>
+      <div class="feat-text"><b>Колесо отношений</b>: наглядная карта вашей пары</div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">🛠</div>
+      <div class="feat-text"><b>Набор инструментов</b>: подобран под вас лично</div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">📋</div>
+      <div class="feat-text"><b>План на 2–3 месяца</b>: конкретные шаги, не советы</div>
+    </div>
   </div>
 
   <!-- ОФФЕР -->
@@ -235,13 +228,13 @@ body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:var(--b
     <div class="offer-badge" id="offer-badge">Осталось 3 из 5 мест по 1 000 ₽</div>
     <div class="offer-price-big" id="o-price">1 000 ₽</div>
     <div class="offer-price-old">10 000 ₽</div>
-    <div class="offer-next-price" id="o-next">Следующая цена — 2 000 ₽</div>
+    <div class="offer-next-price" id="o-next">Следующая цена: 2 000 ₽</div>
     <button class="btn-main btn-glow" id="o-btn">Занять место за 1 000 ₽</button>
     <a class="offer-help" id="tg-link">Хочу на диагностику, но есть вопрос →</a>
     <div class="guarantee-block">
       <div class="guarantee-icon">🛡</div>
       <div class="guarantee-title">100% гарантия возврата</div>
-      <div class="guarantee-text">Если сессия не принесёт пользы — вернём деньги без вопросов. Для вас это без риска</div>
+      <div class="guarantee-text">Если сессия не принесёт пользы, вернём деньги без вопросов. Для вас это без риска</div>
     </div>
   </div>
 
@@ -256,13 +249,13 @@ body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:var(--b
     <div class="offer-badge" id="offer-badge2">Осталось 3 из 5 мест по 1 000 ₽</div>
     <div class="offer-price-big" id="o-price2">1 000 ₽</div>
     <div class="offer-price-old">10 000 ₽</div>
-    <div class="offer-next-price" id="o-next2">Следующая цена — 2 000 ₽</div>
+    <div class="offer-next-price" id="o-next2">Следующая цена: 2 000 ₽</div>
     <button class="btn-main btn-glow" id="o-btn2">Занять место за 1 000 ₽</button>
     <a class="offer-help" id="tg-link2">Хочу на диагностику, но есть вопрос →</a>
     <div class="guarantee-block">
       <div class="guarantee-icon">🛡</div>
       <div class="guarantee-title">100% гарантия возврата</div>
-      <div class="guarantee-text">Если сессия не принесёт пользы — вернём деньги без вопросов. Для вас это без риска</div>
+      <div class="guarantee-text">Если сессия не принесёт пользы, вернём деньги без вопросов. Для вас это без риска</div>
     </div>
   </div>
 
@@ -294,7 +287,7 @@ body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:var(--b
     <button class="ovl-x" onclick="document.getElementById('ovl-form').classList.remove('act')">✕</button>
     <div id="form-area">
       <div class="ovl-title">Занять место</div>
-      <div class="ovl-sub" id="form-sub">Диагностическая сессия — 1 000 ₽</div>
+      <div class="ovl-sub" id="form-sub">Диагностическая сессия · 1 000 ₽</div>
       <div class="ovl-deal" id="form-deal">
         <span class="ovl-deal-old">10 000 ₽</span> → <b id="form-deal-price">1 000 ₽</b>
         <div class="ovl-deal-slots" id="form-deal-slots">Вы забираете одно из последних 3 мест по этой цене</div>
@@ -304,9 +297,9 @@ body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:var(--b
         <input type="hidden" name="formParams[willCreatePaidDeal]" value="">
         <input type="hidden" name="__gc__internal__form__helper" class="gc-l" value="">
         <input type="hidden" name="__gc__internal__form__helper_ref" class="gc-r" value="">
-        <input type="text" maxlength="60" placeholder="E-mail" name="formParams[email]">
-        <input type="text" maxlength="60" placeholder="Имя" name="formParams[full_name]">
-        <input type="text" maxlength="60" placeholder="Телефон" name="formParams[phone]">
+        <input type="email" maxlength="60" placeholder="E-mail" name="formParams[email]" required>
+        <input type="text" maxlength="60" placeholder="Имя" name="formParams[full_name]" required>
+        <input type="tel" maxlength="60" placeholder="Телефон" name="formParams[phone]" required>
         <button type="submit" class="ovl-submit" id="m-sub">ОПЛАТИТЬ</button>
         <input type="hidden" name="requestTime" value="">
         <input type="hidden" name="requestSimpleSign" value="">
@@ -333,9 +326,9 @@ body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:var(--b
         <input type="hidden" name="formParams[willCreatePaidDeal]" value="">
         <input type="hidden" name="__gc__internal__form__helper" class="gc-l" value="">
         <input type="hidden" name="__gc__internal__form__helper_ref" class="gc-r" value="">
-        <input type="text" maxlength="60" placeholder="E-mail" name="formParams[email]">
-        <input type="text" maxlength="60" placeholder="Имя" name="formParams[full_name]">
-        <input type="text" maxlength="60" placeholder="Телефон" name="formParams[phone]">
+        <input type="email" maxlength="60" placeholder="E-mail" name="formParams[email]" required>
+        <input type="text" maxlength="60" placeholder="Имя" name="formParams[full_name]" required>
+        <input type="tel" maxlength="60" placeholder="Телефон" name="formParams[phone]" required>
         <button type="submit" class="ovl-submit" id="t-sub">ЗАПИСАТЬСЯ</button>
         <input type="hidden" name="requestTime" value="1771611313">
         <input type="hidden" name="requestSimpleSign" value="76b26f6b367354014accfe9949f7e082">
@@ -350,8 +343,8 @@ body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:var(--b
 <div class="exit" id="exit-pop">
   <div class="exit-card">
     <button class="ovl-x" onclick="document.getElementById('exit-pop').classList.remove('act')">✕</button>
-    <h3>Подождите — у вас есть кое-что важное</h3>
-    <p>Прямо сейчас вы можете занять место на диагностику по самой низкой цене. Через несколько минут она вырастет — и это не вернуть.</p>
+    <h3>Подождите! У вас есть кое-что важное</h3>
+    <p>Прямо сейчас вы можете занять место на диагностику по самой низкой цене. Через несколько минут она вырастет, и это не вернуть.</p>
     <button class="exit-buy" id="ex-buy">Занять место за 1 000 ₽</button>
     <button class="exit-faq" id="ex-faq">У меня есть вопросы</button>
   </div>
@@ -401,15 +394,15 @@ function upUI(){
   var v=LV[cl];
   $('o-price').textContent=v.l;
   $('o-btn').textContent='Занять место за '+v.l;
-  $('form-sub').textContent='Диагностическая сессия — '+v.l;
+  $('form-sub').textContent='Диагностическая сессия · '+v.l;
   $('s-btn').textContent='Занять место за '+v.l;
   $('ex-buy').textContent='Занять место за '+v.l;
   /* offer2 */
   $('o-price2').textContent=v.l;
   $('o-btn2').textContent='Занять место за '+v.l;
   if(cl<4){
-    $('o-next').textContent='Следующая цена — '+LV[cl+1].l;
-    $('o-next2').textContent='Следующая цена — '+LV[cl+1].l;
+    $('o-next').textContent='Следующая цена: '+LV[cl+1].l;
+    $('o-next2').textContent='Следующая цена: '+LV[cl+1].l;
   } else {
     $('o-next').textContent='Это последняя доступная цена';
     $('o-next2').textContent='Это последняя доступная цена';
@@ -456,7 +449,22 @@ function schedT(){
     showT(nn());occSlot();st.ti++;sv();schedT();
   },dl);
 }
-function showT(n){pauseActivity();$('t-name').textContent=n;$('toast').classList.add('show');setTimeout(function(){$('toast').classList.remove('show');setTimeout(startActivity,3000)},5000)}
+/* COIN SOUND */
+var audioCtx=null;
+function playCoin(){
+  try{
+    if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+    var o1=audioCtx.createOscillator(),g1=audioCtx.createGain();
+    o1.type='sine';o1.frequency.setValueAtTime(1200,audioCtx.currentTime);
+    o1.frequency.setValueAtTime(1600,audioCtx.currentTime+0.08);
+    g1.gain.setValueAtTime(0.15,audioCtx.currentTime);
+    g1.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.3);
+    o1.connect(g1);g1.connect(audioCtx.destination);
+    o1.start(audioCtx.currentTime);o1.stop(audioCtx.currentTime+0.3);
+  }catch(e){}
+}
+
+function showT(n){pauseActivity();playCoin();$('t-name').textContent=n;$('toast').classList.add('show');setTimeout(function(){$('toast').classList.remove('show');setTimeout(startActivity,3000)},5000)}
 
 /* early toasts */
 setTimeout(function(){if(!ov)showT(nn())},25000);
@@ -481,11 +489,6 @@ function pauseActivity(){if(actTimer){clearInterval(actTimer);actTimer=null}actE
 /* Start activity 15s after offer appears */
 var origShowOff=showOff;
 
-/* PLAY HINT — click to start video */
-$('watch-hint').addEventListener('click',function(){
-  if(kp){try{kp.play()}catch(e){}}
-});
-
 /* VIEWERS */
 var vd=false,lvu=0,cv=6+Math.floor(Math.random()*5);
 $('vc').textContent=cv;
@@ -496,21 +499,12 @@ var kp=null,ah=false;
 var scr=document.createElement('script');scr.src='https://player.kinescope.io/latest/iframe.player.js';
 document.getElementsByTagName('script')[0].parentNode.insertBefore(scr,document.getElementsByTagName('script')[0]);
 
-/* Poster click — start video when ready */
-$('vid-poster').addEventListener('click',function(){
-  if(kp){try{kp.play()}catch(e){}}
-  $('vid-poster').classList.add('hidden');
-});
-
 window.onKinescopeIframeAPIReady=function(f){
   f.create('kinescope-player-wrap',{url:'https://kinescope.io/oAXuALyw3AS48eQxsG2cBy',size:{width:'100%',height:'100%'},behaviour:{autoPlay:false}}).then(function(p){
     kp=p;
     var ifr=document.querySelector('#kinescope-player-wrap iframe');
     if(ifr){ifr.style.position='absolute';ifr.style.top='0';ifr.style.left='0';ifr.style.width='100%';ifr.style.height='100%'}
-    p.on(p.Events.Playing,function(){
-      if(!ah){ah=true;$('watch-hint').style.display='none'}
-      $('vid-poster').classList.add('hidden');
-    });
+    p.on(p.Events.Playing,function(){ah=true});
     p.on(p.Events.Ended,function(){
       showOff();
       setTimeout(function(){$('offer').scrollIntoView({behavior:'smooth',block:'center'})},300);
@@ -527,7 +521,7 @@ window.onKinescopeIframeAPIReady=function(f){
 /* FORMS */
 function openForm(){
   var v=LV[cl];
-  $('form-sub').textContent='Диагностическая сессия — '+v.l;
+  $('form-sub').textContent='Диагностическая сессия · '+v.l;
   $('form-deal-price').textContent=v.l;
   if(cs<=1){
     $('form-deal-slots').textContent='Вы забираете последнее место по этой цене!';
@@ -540,24 +534,28 @@ function openForm(){
 }
 
 function sendForm(form,action,btn,area,res){
+  /* Валидация */
+  var email=form.querySelector('input[name="formParams[email]"]').value.trim();
+  var name=form.querySelector('input[name="formParams[full_name]"]').value.trim();
+  var phone=form.querySelector('input[name="formParams[phone]"]').value.trim();
+  if(!email||!name||!phone){
+    form.querySelectorAll('input[required]').forEach(function(inp){
+      if(!inp.value.trim())inp.style.borderColor='#e44';
+      inp.addEventListener('input',function(){this.style.borderColor=''},{once:true});
+    });
+    return;
+  }
   form.querySelectorAll('.gc-l').forEach(function(e){e.value=location.href});
   form.querySelectorAll('.gc-r').forEach(function(e){e.value=document.referrer});
-  btn.disabled=true;btn.textContent='Отправка...';
-  /* Отправка через скрытый iframe — обход CORS */
-  var fname='gcf_'+Date.now();
-  var ifr=document.createElement('iframe');ifr.name=fname;ifr.style.display='none';document.body.appendChild(ifr);
-  var f=document.createElement('form');f.method='POST';f.action=action;f.target=fname;
+  btn.disabled=true;btn.textContent='Переход к оплате...';
+  /* Отправка формы напрямую — открывает страницу оплаты */
+  var f=document.createElement('form');
+  f.method='POST';f.action=action;f.target='_top';
   var fd=new FormData(form);
   fd.forEach(function(val,key){
     var inp=document.createElement('input');inp.type='hidden';inp.name=key;inp.value=val;f.appendChild(inp);
   });
   document.body.appendChild(f);f.submit();
-  /* Показываем успех через 2 секунды */
-  setTimeout(function(){
-    area.style.display='none';res.style.display='block';
-    res.innerHTML='<div style="text-align:center;padding:40px 20px"><div style="font-size:48px;margin-bottom:16px">✅</div><div style="font-size:18px;font-weight:700;margin-bottom:8px">Заявка отправлена!</div><div style="font-size:14px;color:#86868b;line-height:1.5">Помощница Татьяны свяжется с вами<br>для выбора удобного времени</div></div>';
-    try{document.body.removeChild(f);document.body.removeChild(ifr)}catch(e){}
-  },2000);
 }
 
 $('mainForm').addEventListener('submit',function(e){e.preventDefault();sendForm($('mainForm'),LV[cl].act,$('m-sub'),$('form-area'),$('form-res'))});
@@ -597,56 +595,56 @@ $('ex-faq').addEventListener('click',function(){$('exit-pop').classList.remove('
 /* FAQ */
 var FAQ_CATS=[
   {cat:'О диагностике',items:[
-    {q:'Что такое диагностическая сессия?',a:'Это 1,5–2 часа работы один на один с психологом-женщиной из команды Татьяны. Вы разбираете свою ситуацию, проходите тест по 6 ключевым сферам отношений — выбор мужчины, коммуникация, близость, вклад мужчины, самоценность, совместное будущее. В результате получаете «колесо отношений», которое наглядно показывает, где у вас всё хорошо, а где провал. Плюс персональный план действий на 2–3 месяца и оформленную диагностическую карту.'},
-    {q:'Что конкретно я получу?',a:'Тест-диагностику по 6 сферам и персональное «колесо отношений». Ваши 3 сильные и 3 слабые стороны. Персональный набор инструментов. Пошаговый план на 2–3 месяца. И диагностическую карту, к которой можно возвращаться.'},
-    {q:'Кто проводит сессию?',a:'Психолог-женщина из команды Татьяны, которую Татьяна лично обучала по своей методике. Она глубоко понимает женские истории и умеет мягко, но честно их разбирать.'},
+    {q:'Что такое диагностическая сессия?',a:'Это 1,5–2 часа работы один на один с психологом-женщиной из команды Татьяны. Вы разбираете свою ситуацию, проходите тест по 6 ключевым сферам отношений: выбор мужчины, коммуникация, близость, вклад мужчины, самоценность, совместное будущее. В результате получаете «колесо отношений», которое наглядно показывает, где всё хорошо, а где провал. Плюс персональный план действий на 2–3 месяца и оформленную диагностическую карту.'},
+    {q:'Что конкретно я получу?',a:'Тест-диагностику по 6 сферам и персональное «колесо отношений». Три сильные и три слабые стороны в ваших отношениях. Набор инструментов, подобранный лично под вас. Пошаговый план на 2–3 месяца. И диагностическую карту, к которой можно возвращаться.'},
+    {q:'Кто проводит сессию?',a:'Психолог-женщина из команды Татьяны. Татьяна лично обучала её по своей методике. Она глубоко понимает женские истории и умеет мягко, но честно их разбирать.'},
     {q:'Хочу попасть к Татьяне лично',a:'Да, это возможно. Ваша встреча с Татьяной будет консультативной, а при необходимости вас дополнительно запишут на диагностику.',c:'tat'}
   ]},
   {cat:'Подойдёт ли мне',items:[
-    {q:'Кому подойдёт?',a:'Вам, если вы чувствуете, что мужчина отдалился — нет контакта, разговоры заканчиваются ссорами или тишиной, нет близости и тепла. Если тянете на себе быт, детей и заботу, но не чувствуете отдачи. Если не понимаете — сохранять отношения или уходить. Если хотите создать новые отношения, но раз за разом выбираете не тех.'},
-    {q:'Кому НЕ подойдёт?',a:'Тем, кто ждёт один волшебный совет, после которого мужчина вдруг всё поймёт и изменится. Тем, кто хочет «просто послушать», но ничего менять не готов. И тем, кто уверен, что виноват только мужчина — на сессии мы честно разбираем то, что можете изменить именно вы.'},
-    {q:'Была измена — подойдёт?',a:'Да. Измена — одна из самых частых ситуаций. Тест покажет, что привело к этой точке и есть ли фундамент для восстановления.'},
-    {q:'На грани развода — не поздно?',a:'Не поздно. Диагностика помогает понять: бороться или отпустить. В обоих случаях — ясность и план.'},
-    {q:'Нет отношений — подойдёт?',a:'Да. Разбирают, почему не складывается, какие паттерны повторяете, что саботирует создание пары.'},
-    {q:'Мой случай слишком сложный',a:'На сессиях разбирали измены, разводы, созависимость, абьюз, ситуации «живём как соседи». Тест работает с любой историей. Если случай за рамками — деньги вернут.'},
-    {q:'А если мужчина — абьюзер?',a:'Диагностика покажет и это. Если выявит абьюз — получите стратегию безопасного выхода, а не план «как его вернуть».'},
-    {q:'Мне уже за 50 — не поздно?',a:'Возраст не имеет значения. Приходят от 25 до 65+. Дело не в возрасте, а в готовности перестать терпеть.'}
+    {q:'Кому подойдёт?',a:'Вам, если чувствуете, что мужчина отдалился. Нет контакта, разговоры заканчиваются ссорами или тишиной, нет близости и тепла. Если тянете на себе быт, детей, заботу, но не чувствуете отдачи. Если не понимаете: сохранять отношения или уходить. Если хотите создать новые отношения, но раз за разом выбираете не тех.'},
+    {q:'Кому НЕ подойдёт?',a:'Тем, кто ждёт один волшебный совет, после которого мужчина вдруг всё поймёт. Тем, кто хочет «просто послушать», но ничего менять не готов. И тем, кто уверен, что виноват только мужчина. На сессии мы честно разбираем то, что можете изменить именно вы.'},
+    {q:'Была измена. Подойдёт?',a:'Да. Измена это одна из самых частых ситуаций на диагностике. Тест покажет, что привело к этой точке и есть ли фундамент для восстановления.'},
+    {q:'На грани развода. Не поздно?',a:'Не поздно. Диагностика помогает понять: бороться или отпустить. В обоих случаях вы получаете ясность и план действий.'},
+    {q:'Нет отношений. Подойдёт?',a:'Да. На сессии разбирают, почему не складывается, какие паттерны вы повторяете в выборе мужчин, что саботирует создание пары.'},
+    {q:'Мой случай слишком сложный',a:'На сессиях разбирали измены, разводы, созависимость, абьюз, ситуации «живём как соседи». Тест работает с любой историей. Если ваш случай окажется за рамками, деньги вернут.'},
+    {q:'А если мужчина абьюзер?',a:'Диагностика покажет и это. Если выявит абьюз, вы получите стратегию безопасного выхода, а не план «как его вернуть».'},
+    {q:'Мне уже за 50. Не поздно?',a:'Возраст не имеет значения. Приходят женщины от 25 до 65+. Дело не в возрасте, а в готовности перестать терпеть.'}
   ]},
   {cat:'Оплата и запись',items:[
-    {q:'Сколько стоит?',a:'Обычная стоимость — 10 000 ₽. На этой странице действует специальная цена, которая растёт по мере заполнения мест. Самая низкая — 1 000 ₽, но мест ограниченное количество. Когда закончатся — цена вырастет.'},
-    {q:'1 000 рублей — подозрительно дешево',a:'Как стоматология: диагностика стоит недорого, потому что процесс отточен. Методика одна, а результат — всегда персональный под вашу историю.'},
-    {q:'Можно записаться позже?',a:'Цена растёт по мере заполнения мест. Сейчас — самая низкая. Когда закончатся — вырастет, вернуть нельзя. Максимальная — 5 000 ₽, обычная — 10 000 ₽. Сессия длится 2 часа, а ясность, которую она даёт, меняет всё.'},
-    {q:'Как попасть на сессию?',a:'После просмотра видео появится кнопка «Занять место». Если ещё не появилась — нажмите кнопку ниже.',c:'off'},
-    {q:'Что будет после оплаты?',a:'Сразу придёт анкета — опишете ситуацию, чтобы на встрече идти в суть. Потом помощница поможет выбрать день и время. Сессия онлайн в Zoom.'},
-    {q:'Не смогу прийти в назначенное время',a:'Напишите помощнице — перенесёт без доплат. Оплата сохраняется.'},
-    {q:'А если результат не устроит?',a:'100% гарантия возврата. Если сессия не принесёт пользы — деньги вернут без вопросов.'},
+    {q:'Сколько стоит?',a:'Обычная стоимость 10 000 ₽. На этой странице действует специальная цена, которая растёт по мере заполнения мест. Самая низкая 1 000 ₽, но мест ограниченное количество. Когда закончатся, цена вырастет.'},
+    {q:'1 000 рублей. Подозрительно дешево',a:'Как в стоматологии: первичная диагностика стоит недорого, потому что процесс отточен до мелочей. Методика одна, а результат всегда персональный под вашу историю.'},
+    {q:'Можно записаться позже?',a:'Цена растёт по мере заполнения мест. Сейчас самая низкая. Когда места закончатся, вернуть прежнюю цену будет невозможно. Максимальная 5 000 ₽, обычная без акции 10 000 ₽. Сессия длится 2 часа, а ясность, которую она даёт, меняет всё.'},
+    {q:'Как попасть на сессию?',a:'После просмотра видео появится кнопка «Занять место». Если она ещё не появилась, нажмите кнопку ниже.',c:'off'},
+    {q:'Что будет после оплаты?',a:'Сразу придёт анкета. Вы опишете свою ситуацию, чтобы на встрече сразу идти в суть. Потом помощница поможет выбрать удобный день и время. Сессия проходит онлайн в Zoom.'},
+    {q:'Не смогу прийти в назначенное время',a:'Напишите помощнице, она перенесёт без доплат. Оплата сохраняется за вами.'},
+    {q:'А если результат не устроит?',a:'100% гарантия возврата. Если сессия не принесёт пользы, деньги вернут без вопросов.'},
     {q:'Будут ли мне что-то продавать?',a:'Никакого давления. Примерно 70% женщин после диагностики вообще не получают предложение продолжения. Вы в любом случае уходите с планом и инструментами.'}
   ]},
   {cat:'Как проходит сессия',items:[
-    {q:'Два часа — долго, нет времени',a:'Сессия онлайн — хоть когда дети уснут. Помощница подберёт удобное время. Эти 2 часа заменят месяцы прокручивания одних и тех же мыслей.'},
-    {q:'Можно только голосом без камеры?',a:'Как комфортнее. На качество работы не влияет.'},
-    {q:'Нужно ли готовиться?',a:'Нет. После оплаты придёт анкета — заполните, и этого достаточно.'},
-    {q:'Можно прийти вдвоём с мужем?',a:'Диагностика — работа с вами один на один. Так вы говорите открыто, без оглядки.'},
+    {q:'Два часа это долго, нет времени',a:'Сессия проходит онлайн. Можно подключиться хоть когда дети уснут. Помощница подберёт удобное время. Эти 2 часа заменят месяцы прокручивания одних и тех же мыслей.'},
+    {q:'Можно только голосом, без камеры?',a:'Как вам комфортнее. На качество работы это не влияет.'},
+    {q:'Нужно ли готовиться?',a:'Нет. После оплаты придёт анкета, заполните её, и этого достаточно.'},
+    {q:'Можно прийти вдвоём с мужем?',a:'Диагностика это работа с вами один на один. Так вы сможете говорить открыто, без оглядки.'},
     {q:'Это конфиденциально?',a:'Полностью. Сессия один на один в Zoom. Ваш мужчина не узнает, если вы сами не расскажете.'},
-    {q:'Мужчина узнает — будет скандал',a:'Не узнает. Онлайн, в удобное время. Никаких звонков и писем. Многие проходят тихо, для себя.'}
+    {q:'Мужчина узнает, будет скандал',a:'Не узнает. Всё онлайн, в удобное время. Никаких звонков и писем на общую почту. Многие проходят тихо, для себя.'}
   ]},
   {cat:'Сомнения и страхи',items:[
-    {q:'Вдруг станет хуже?',a:'Первые шаги настолько мягкие, что мужчина даже не заметит, что вы что-то делаете иначе — а атмосфера начнёт меняться.'},
-    {q:'Боюсь услышать, что безнадёжно',a:'Задача — не приговор, а реальная картина. Иногда она лучше, чем кажется. В любом случае — план, что делать дальше.'},
-    {q:'У нас не так всё плохо — стоит ли ворошить?',a:'Если вы на этой странице — что-то внутри сигналит. Мелкие трещины не проходят сами. Поймать на раннем этапе — в разы проще.'},
-    {q:'Стыдно рассказывать свою ситуацию',a:'Нормальное чувство — проходит за 10 минут. Специалист не оценивает. Многие впервые смогли сказать вслух то, что носили месяцами.'},
-    {q:'Не умею говорить о чувствах',a:'Не нужно красиво формулировать. Специалист задаёт конкретные вопросы. Многие приходят со словами «не знаю, что сказать» — через 20 минут не могут остановиться.'},
-    {q:'Вдруг расплачусь',a:'Плакать нормально. После слёз приходит ясность. Ни одна сессия не сорвалась из-за слёз.'},
-    {q:'Я уже знаю проблему — нужно решение',a:'Часто то, что кажется проблемой — симптом. Тест покажет корень. Если правы — получите инструменты.'},
-    {q:'Что если пойму, что нужно уходить — а не готова?',a:'Диагностика не принимает решений за вас. Она даёт ясность. Многие говорят, что именно ясность дала силы — и не всегда уйти, часто остаться и действовать по-другому.'},
-    {q:'Перепробовала всё — не верю',a:'Книги дают общие советы. Диагностика — разбор вашей конкретной пары. Разница — как между учебником и личным обследованием у врача.'},
-    {q:'Я считаю, что психологи — развод на деньги',a:'Именно поэтому гарантия возврата. Попробуйте по системе — тест, колесо, план. Если бесполезно — деньги вернутся.'},
-    {q:'Не хочу, чтобы лезли в голову',a:'Никто не лезет. Вы проходите тест, видите результаты, сами делаете выводы. Это структурированный разбор, не гипноз.'},
-    {q:'Мне уже ничего не поможет',a:'Это чувство знакомо почти каждой, кто приходит. Оно значит, что вы устали искать выход в одиночку. Если не поможет — вернём деньги.'},
-    {q:'Я уже ходила к психологу — не помогло',a:'Диагностическая сессия — не терапия на месяцы. За одну встречу вы проходите тест по 6 сферам и получаете план. Многие говорят, что за 2 часа получили больше ясности, чем за полгода у терапевта.'}
+    {q:'Вдруг станет хуже?',a:'Первые шаги настолько мягкие, что мужчина даже не заметит, что вы что-то делаете иначе. А атмосфера начнёт меняться.'},
+    {q:'Боюсь услышать, что безнадёжно',a:'Задача диагностики не приговор, а реальная картина. Иногда она лучше, чем вы думаете. В любом случае вы получите план, что делать дальше.'},
+    {q:'У нас не так всё плохо. Стоит ли ворошить?',a:'Если вы оказались на этой странице, значит что-то внутри уже сигналит. Мелкие трещины не проходят сами. Поймать проблему на раннем этапе в разы проще.'},
+    {q:'Стыдно рассказывать свою ситуацию',a:'Это нормальное чувство, оно проходит за первые 10 минут. Специалист не оценивает и не осуждает. Многие впервые смогли сказать вслух то, что носили в себе месяцами.'},
+    {q:'Не умею говорить о чувствах',a:'Не нужно красиво формулировать. Специалист задаёт конкретные вопросы, вы просто отвечаете как есть. Многие приходят со словами «не знаю, что сказать», а через 20 минут не могут остановиться.'},
+    {q:'Вдруг расплачусь',a:'Плакать нормально. Специалист к этому готова. После слёз обычно приходит ясность. Ни одна сессия не сорвалась из-за слёз.'},
+    {q:'Я уже знаю свою проблему, мне нужно решение',a:'Часто то, что кажется проблемой, на самом деле симптом. Тест покажет корень. Если вы правы, получите конкретные инструменты для решения.'},
+    {q:'Что если пойму, что нужно уходить, а я не готова?',a:'Диагностика не принимает решений за вас. Она даёт ясность. Многие клиентки говорят, что именно ясность дала им силы. И не всегда уйти. Часто наоборот: остаться и действовать по-другому.'},
+    {q:'Перепробовала всё, не верю',a:'Книги и тренинги дают общие советы для всех. Диагностика это разбор вашей конкретной пары по системе. Разница как между учебником по анатомии и личным обследованием у врача.'},
+    {q:'Психологи это развод на деньги',a:'Именно поэтому есть гарантия возврата. Попробуйте один раз по системе: тест, колесо, план. Если после этого скажете, что бесполезно, деньги вернутся.'},
+    {q:'Не хочу, чтобы лезли в голову',a:'Никто не лезет и не манипулирует. Вы проходите тест, видите результаты своими глазами, сами делаете выводы. Это структурированный разбор, не гипноз.'},
+    {q:'Мне уже ничего не поможет',a:'Это чувство знакомо почти каждой, кто приходит на диагностику. Оно не значит, что помочь нельзя. Оно значит, что вы устали искать выход в одиночку. Если не поможет, вернём деньги.'},
+    {q:'Я уже ходила к психологу, не помогло',a:'Диагностическая сессия это не терапия на месяцы вслепую. За одну встречу вы проходите структурированный тест по 6 сферам и получаете план. Многие говорят, что за 2 часа здесь получили больше ясности, чем за полгода у терапевта.'}
   ]},
   {cat:'Остались вопросы?',items:[
-    {q:'У меня остались вопросы',a:'Напишите помощнице Татьяны — она ответит и поможет с записью.',c:'tg'}
+    {q:'У меня остались вопросы',a:'Напишите помощнице Татьяны, она ответит и поможет с записью.',c:'tg'}
   ]}
 ];
 
@@ -663,7 +661,7 @@ FAQ_CATS.forEach(function(cat){
     if(it.c==='off'){var b2=document.createElement('button');b2.className='faq-btn';b2.textContent='Открыть запись';b2.onclick=function(){showOff();$('offer').scrollIntoView({behavior:'smooth'})};ai.appendChild(b2)}
     if(it.c==='tg'){var b3=document.createElement('a');b3.className='faq-btn faq-btn-tg';b3.textContent='Написать в Telegram →';b3.href='https://t.me/tatyana_vyalkova_team';b3.target='_blank';ai.appendChild(b3)}
     a.appendChild(ai);d.appendChild(q);d.appendChild(a);fl.appendChild(d);
-    q.addEventListener('click',function(){var w=d.classList.contains('open');d.classList.toggle('open');if(!w){fq++;if(fq>=3&&ov){$('s-btn').textContent='Вы уже всё узнали — осталось занять место за '+LV[cl].l}}});
+    q.addEventListener('click',function(){var w=d.classList.contains('open');d.classList.toggle('open');if(!w){fq++;if(fq>=3&&ov){$('s-btn').textContent='Вы уже всё узнали. Осталось занять место за '+LV[cl].l}}});
   });
 });
 
