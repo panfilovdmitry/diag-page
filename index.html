@@ -54,7 +54,7 @@ body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:var(--b
 @keyframes vp{0%,100%{opacity:1}50%{opacity:.3}}
 .top-bar-marquee{overflow:hidden;background:linear-gradient(90deg,#fff8f0,#fff3e6);border-top:1px solid rgba(245,166,35,.1);padding:6px 0;display:none}
 .top-bar-marquee.vis{display:block}
-.marquee-track{display:flex;gap:48px;animation:marqueeScroll 60s linear infinite;white-space:nowrap;width:max-content}
+.marquee-track{display:flex;gap:120px;animation:marqueeScroll 120s linear infinite;white-space:nowrap;width:max-content;padding:0 60px}
 .marquee-item{font-size:12px;font-weight:600;color:#D48800;display:flex;align-items:center;gap:5px}
 .marquee-dot{width:5px;height:5px;background:#E08A00;border-radius:50%;animation:mDot 1.5s ease infinite}
 @keyframes mDot{0%,100%{opacity:1}50%{opacity:.3}}
@@ -481,22 +481,26 @@ if(st.on){showOff()}else{setTimeout(showOff,120000)}
 
 /* MARQUEE ACTIVITY */
 var mNames=['Ольга','Анна','Екатерина','Мария','Наталья','Ирина','Елена','Светлана','Татьяна','Юлия','Дарья','Алина','Виктория','Ксения','Марина'];
-var mTimes=['только что','1 мин назад','2 мин назад','3 мин назад','5 мин назад','7 мин назад'];
+var mActions=['оплатила диагностическую сессию','заняла место на диагностику','записалась на консультацию','забронировала место','оформила запись на сессию'];
+var mTimes=['только что','1 мин назад','3 мин назад','5 мин назад','8 мин назад','12 мин назад','15 мин назад'];
 var marqueeEl=$('top-marquee'),trackEl=$('marquee-track');
 function shuffleArr(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
-function startActivity(){
-  if(!ov)return;
-  var names=shuffleArr(mNames.slice());
+function buildMarquee(){
+  var names=shuffleArr(mNames.slice()).slice(0,7);
   var html='';
-  for(var r=0;r<3;r++){
+  for(var r=0;r<2;r++){
     for(var i=0;i<names.length;i++){
+      var act=mActions[i%mActions.length];
       var t=mTimes[Math.min(i,mTimes.length-1)];
-      html+='<span class="marquee-item"><span class="marquee-dot"></span>'+names[i]+' записалась · '+t+'</span>';
+      html+='<span class="marquee-item"><span class="marquee-dot"></span>'+names[i]+' '+act+' · '+t+'</span>';
     }
   }
   trackEl.innerHTML=html;
   marqueeEl.classList.add('vis');
 }
+/* Запуск сразу при загрузке */
+buildMarquee();
+function startActivity(){if(!ov)return;buildMarquee()}
 function pauseActivity(){marqueeEl.classList.remove('vis')}
 /* Start activity 15s after offer appears */
 var origShowOff=showOff;
