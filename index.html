@@ -395,7 +395,7 @@ if(localStorage.getItem(KDY)!==td){localStorage.removeItem(KD);localStorage.setI
 var st=JSON.parse(localStorage.getItem(KD)||'null')||{lv:0,sl:3,on:false,ost:null,ti:0,ex:false};
 function sv(){localStorage.setItem(KD,JSON.stringify(st))}
 
-var cl=st.lv,cs=st.sl,ov=false,ort=null,fq=0;
+var cl=st.lv,cs=st.sl,ov=false,ort=null;
 
 function upUI(){
   var v=LV[cl];
@@ -688,7 +688,7 @@ FAQ_CATS.forEach(function(cat){
     if(it.c==='off'){var b2=document.createElement('button');b2.className='faq-btn';b2.textContent='Открыть запись';b2.onclick=function(){showOff();$('offer').scrollIntoView({behavior:'smooth'})};ai.appendChild(b2)}
     if(it.c==='tg'){var b3=document.createElement('a');b3.className='faq-btn faq-btn-tg';b3.textContent='Написать в Telegram →';b3.href='https://t.me/tatyana_vyalkova_team';b3.target='_blank';ai.appendChild(b3)}
     a.appendChild(ai);d.appendChild(q);d.appendChild(a);fl.appendChild(d);
-    q.addEventListener('click',function(){var w=d.classList.contains('open');d.classList.toggle('open');if(!w){fq++;if(fq>=3&&ov){$('s-btn').textContent='Вы уже всё узнали. Осталось занять место за '+LV[cl].l}}});
+    q.addEventListener('click',function(){d.classList.toggle('open')});
   });
 });
 
