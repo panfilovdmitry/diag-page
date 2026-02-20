@@ -100,6 +100,8 @@ body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:var(--b
 .faq-cat:first-child{margin-top:0}
 .faq-item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:8px;overflow:hidden;transition:box-shadow .2s}
 .faq-item:hover{box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.faq-item.faq-hl{background:var(--accent-soft);border-color:rgba(45,140,255,.15)}
+.faq-item.faq-hl .faq-q{color:var(--accent)}
 .faq-q{padding:16px 20px;font-size:15px;font-weight:600;color:var(--text);cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none;gap:12px;line-height:1.4}
 .faq-q::after{content:'+';font-size:18px;color:var(--sub);transition:transform .3s;flex-shrink:0;font-weight:400}
 .faq-item.open .faq-q::after{transform:rotate(45deg);color:var(--accent)}
@@ -112,7 +114,7 @@ body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:var(--b
 .faq-btn-tg{background:#2AABEE;text-decoration:none;color:#fff}
 
 /* STICKY */
-.sticky{position:fixed;bottom:env(safe-area-inset-bottom,0);left:0;right:0;background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:12px 20px calc(12px + env(safe-area-inset-bottom,0));z-index:8000;display:none;align-items:center;justify-content:center;gap:12px}
+.sticky{position:sticky;bottom:0;left:0;right:0;background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:12px 20px;z-index:8000;display:none;align-items:center;justify-content:center;gap:12px;margin:0 -20px;width:calc(100% + 40px)}
 .sticky.vis{display:flex}
 .sticky-btn{padding:14px 20px;font-size:14px;font-weight:700;color:#fff;background:var(--accent);border:none;border-radius:12px;cursor:pointer;font-family:inherit;transition:all .2s;flex-shrink:1;max-width:300px;text-align:center;line-height:1.3}
 .sticky-btn:active{transform:scale(.96)}
@@ -204,6 +206,21 @@ body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:var(--b
     <div class="vpn-hint">Видео не загружается? Отключите VPN</div>
   </div>
 
+  <!-- ОФФЕР -->
+  <div class="offer" id="offer">
+    <div class="offer-badge" id="offer-badge">Осталось 3 из 5 мест по 1 000 ₽</div>
+    <div class="offer-price-big" id="o-price">1 000 ₽</div>
+    <div class="offer-price-old">10 000 ₽</div>
+    <div class="offer-next-price" id="o-next">Следующая цена: 2 000 ₽</div>
+    <button class="btn-main btn-glow" id="o-btn">Занять место за 1 000 ₽</button>
+    <a class="offer-help" id="tg-link">Хочу на диагностику, но есть вопрос →</a>
+    <div class="guarantee-block">
+      <div class="guarantee-icon">🛡</div>
+      <div class="guarantee-title">100% гарантия возврата</div>
+      <div class="guarantee-text">Если сессия не принесёт пользы, вернём деньги без вопросов. Для вас это без риска</div>
+    </div>
+  </div>
+
   <div class="features">
     <div class="feat">
       <div class="feat-icon">🔬</div>
@@ -223,24 +240,9 @@ body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:var(--b
     </div>
   </div>
 
-  <!-- ОФФЕР -->
-  <div class="offer" id="offer">
-    <div class="offer-badge" id="offer-badge">Осталось 3 из 5 мест по 1 000 ₽</div>
-    <div class="offer-price-big" id="o-price">1 000 ₽</div>
-    <div class="offer-price-old">10 000 ₽</div>
-    <div class="offer-next-price" id="o-next">Следующая цена: 2 000 ₽</div>
-    <button class="btn-main btn-glow" id="o-btn">Занять место за 1 000 ₽</button>
-    <a class="offer-help" id="tg-link">Хочу на диагностику, но есть вопрос →</a>
-    <div class="guarantee-block">
-      <div class="guarantee-icon">🛡</div>
-      <div class="guarantee-title">100% гарантия возврата</div>
-      <div class="guarantee-text">Если сессия не принесёт пользы, вернём деньги без вопросов. Для вас это без риска</div>
-    </div>
-  </div>
-
   <!-- FAQ -->
   <div class="faq-sec" id="faq-sec">
-    <div class="faq-title">Частые вопросы</div>
+    <div class="faq-title">Часто задаваемые вопросы</div>
     <div id="faq-list"></div>
   </div>
 
@@ -259,6 +261,12 @@ body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:var(--b
     </div>
   </div>
 
+  <!-- STICKY -->
+  <div class="sticky" id="sticky">
+    <button class="sticky-btn" id="s-btn">Занять место за 1 000 ₽</button>
+    <div class="sticky-g">🛡 Гарантия возврата</div>
+  </div>
+
   <!-- ПОДВАЛ -->
   <footer class="footer">
     <div class="footer-col">
@@ -272,10 +280,6 @@ body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:var(--b
       <a href="https://edu.fenomenata.ru/terms-of-use">Пользовательское соглашение</a>
     </div>
   </footer>
-</div>
-<div class="sticky" id="sticky">
-  <button class="sticky-btn" id="s-btn">Занять место за 1 000 ₽</button>
-  <div class="sticky-g">🛡 Гарантия возврата</div>
 </div>
 
 <!-- TOAST -->
@@ -598,7 +602,8 @@ var FAQ_CATS=[
     {q:'Что такое диагностическая сессия?',a:'Это 1,5–2 часа работы один на один с психологом-женщиной из команды Татьяны. Вы разбираете свою ситуацию, проходите тест по 6 ключевым сферам отношений: выбор мужчины, коммуникация, близость, вклад мужчины, самоценность, совместное будущее. В результате получаете «колесо отношений», которое наглядно показывает, где всё хорошо, а где провал. Плюс персональный план действий на 2–3 месяца и оформленную диагностическую карту.'},
     {q:'Что конкретно я получу?',a:'Тест-диагностику по 6 сферам и персональное «колесо отношений». Три сильные и три слабые стороны в ваших отношениях. Набор инструментов, подобранный лично под вас. Пошаговый план на 2–3 месяца. И диагностическую карту, к которой можно возвращаться.'},
     {q:'Кто проводит сессию?',a:'Психолог-женщина из команды Татьяны. Татьяна лично обучала её по своей методике. Она глубоко понимает женские истории и умеет мягко, но честно их разбирать.'},
-    {q:'Хочу попасть к Татьяне лично',a:'Да, это возможно. Ваша встреча с Татьяной будет консультативной, а при необходимости вас дополнительно запишут на диагностику.',c:'tat'}
+    {q:'Хочу попасть к Татьяне лично',a:'Да, это возможно. Ваша встреча с Татьяной будет консультативной, а при необходимости вас дополнительно запишут на диагностику.',c:'tat'},
+    {q:'Как попасть на сессию?',a:'После просмотра видео появится кнопка «Занять место». Если она ещё не появилась, нажмите кнопку ниже.',c:'off',hl:true}
   ]},
   {cat:'Подойдёт ли мне',items:[
     {q:'Кому подойдёт?',a:'Вам, если чувствуете, что мужчина отдалился. Нет контакта, разговоры заканчиваются ссорами или тишиной, нет близости и тепла. Если тянете на себе быт, детей, заботу, но не чувствуете отдачи. Если не понимаете: сохранять отношения или уходить. Если хотите создать новые отношения, но раз за разом выбираете не тех.'},
@@ -614,7 +619,6 @@ var FAQ_CATS=[
     {q:'Сколько стоит?',a:'Обычная стоимость 10 000 ₽. На этой странице действует специальная цена, которая растёт по мере заполнения мест. Самая низкая 1 000 ₽, но мест ограниченное количество. Когда закончатся, цена вырастет.'},
     {q:'1 000 рублей. Подозрительно дешево',a:'Как в стоматологии: первичная диагностика стоит недорого, потому что процесс отточен до мелочей. Методика одна, а результат всегда персональный под вашу историю.'},
     {q:'Можно записаться позже?',a:'Цена растёт по мере заполнения мест. Сейчас самая низкая. Когда места закончатся, вернуть прежнюю цену будет невозможно. Максимальная 5 000 ₽, обычная без акции 10 000 ₽. Сессия длится 2 часа, а ясность, которую она даёт, меняет всё.'},
-    {q:'Как попасть на сессию?',a:'После просмотра видео появится кнопка «Занять место». Если она ещё не появилась, нажмите кнопку ниже.',c:'off'},
     {q:'Что будет после оплаты?',a:'Сразу придёт анкета. Вы опишете свою ситуацию, чтобы на встрече сразу идти в суть. Потом помощница поможет выбрать удобный день и время. Сессия проходит онлайн в Zoom.'},
     {q:'Не смогу прийти в назначенное время',a:'Напишите помощнице, она перенесёт без доплат. Оплата сохраняется за вами.'},
     {q:'А если результат не устроит?',a:'100% гарантия возврата. Если сессия не принесёт пользы, деньги вернут без вопросов.'},
@@ -626,7 +630,7 @@ var FAQ_CATS=[
     {q:'Нужно ли готовиться?',a:'Нет. После оплаты придёт анкета, заполните её, и этого достаточно.'},
     {q:'Можно прийти вдвоём с мужем?',a:'Диагностика это работа с вами один на один. Так вы сможете говорить открыто, без оглядки.'},
     {q:'Это конфиденциально?',a:'Полностью. Сессия один на один в Zoom. Ваш мужчина не узнает, если вы сами не расскажете.'},
-    {q:'Мужчина узнает, будет скандал',a:'Не узнает. Всё онлайн, в удобное время. Никаких звонков и писем на общую почту. Многие проходят тихо, для себя.'}
+    {q:'Мужчина узнает, будет скандал',a:'Не узнает. Всё онлайн, в удобное время. Никаких звонков и писем на общую почту. Многие приходят тихо, для себя.'}
   ]},
   {cat:'Сомнения и страхи',items:[
     {q:'Вдруг станет хуже?',a:'Первые шаги настолько мягкие, что мужчина даже не заметит, что вы что-то делаете иначе. А атмосфера начнёт меняться.'},
@@ -652,7 +656,7 @@ var fl=$('faq-list');
 FAQ_CATS.forEach(function(cat){
   var h=document.createElement('div');h.className='faq-cat';h.textContent=cat.cat;fl.appendChild(h);
   cat.items.forEach(function(it){
-    var d=document.createElement('div');d.className='faq-item';
+    var d=document.createElement('div');d.className='faq-item';if(it.hl)d.classList.add('faq-hl');
     var q=document.createElement('div');q.className='faq-q';q.textContent=it.q;
     var a=document.createElement('div');a.className='faq-a';
     var ai=document.createElement('div');ai.className='faq-a-inner';
