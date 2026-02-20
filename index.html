@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fafafa;--card:#fff;--text:#1d1d1f;--sub:#86868b;--accent:#7C5CFC;
+  --accent-soft:#f3f0ff;--border:rgba(0,0,0,.06);--glass:rgba(255,255,255,.85);
+  --radius:20px;--radius-sm:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.5}
+.wrap{max-width:680px;margin:0 auto;padding:24px 20px 120px;transition:padding-top .4s}
+.wrap.has-topbar{padding-top:60px}
+
+/* ЯКОРЬ */
+.anchor{text-align:center;font-size:12px;letter-spacing:.04em;color:var(--sub);margin-bottom:24px;text-transform:uppercase;font-weight:500}
+
+/* ЗАГОЛОВОК */
+.hero-t{font-size:clamp(22px,5.5vw,34px);font-weight:800;text-align:center;line-height:1.25;letter-spacing:-.02em;margin-bottom:20px;color:var(--text)}
+.hero-t em{font-style:normal;background:linear-gradient(135deg,var(--accent),#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-cta{text-align:center;font-size:16px;font-weight:600;color:var(--accent);margin-bottom:24px;letter-spacing:-.01em}
+
+/* ВИДЕО */
+.vid-wrap{position:relative;margin-bottom:0;border-radius:var(--radius);overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.08)}
+.vid-ratio{position:relative;width:100%;padding-top:56.25%}
+#kinescope-player-wrap{position:absolute;top:0;left:0;width:100%;height:100%}
+#kinescope-player-wrap iframe{width:100%!important;height:100%!important;border:none}
+
+/* СТРЕЛКА */
+.vid-outer{position:relative;margin-bottom:24px}
+.play-hint{position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--border);border-radius:100px;padding:8px 20px;box-shadow:0 4px 20px rgba(0,0,0,.06);z-index:3;white-space:nowrap;animation:hintPulse 3s ease infinite}
+@keyframes hintPulse{0%,100%{box-shadow:0 4px 20px rgba(0,0,0,.06)}50%{box-shadow:0 4px 24px rgba(124,92,252,.2)}}
+.play-hint-dot{width:28px;height:28px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center}
+.play-hint-dot svg{width:12px;height:12px;fill:#fff;margin-left:2px}
+.play-hint span{font-size:13px;font-weight:600;color:var(--text)}
+
+/* ФИЧИ */
+.features{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
+.feat{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:center}
+.feat-icon{font-size:24px;margin-bottom:6px}
+.feat-text{font-size:13px;color:var(--sub);line-height:1.45;font-weight:500}
+.feat-text b{color:var(--text);font-weight:700}
+@media(max-width:420px){.features{grid-template-columns:1fr}.feat{padding:14px}}
+
+/* STICKY TOP BAR */
+.top-bar{position:fixed;top:0;left:0;right:0;z-index:7500;background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);transform:translateY(-100%);transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.top-bar.vis{transform:translateY(0)}
+.top-bar-inner{max-width:680px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:8px 20px;font-size:12px;font-weight:500}
+.top-bar-viewers{display:flex;align-items:center;gap:5px;color:var(--sub)}
+.v-dot{width:6px;height:6px;background:#34c759;border-radius:50%;animation:vp 2s ease infinite;flex-shrink:0}
+@keyframes vp{0%,100%{opacity:1}50%{opacity:.3}}
+.top-bar-activity{color:var(--accent);animation:actFade 2.5s ease infinite;display:none}
+.top-bar-activity.vis{display:block}
+@keyframes actFade{0%,100%{opacity:.4}50%{opacity:1}}
+
+/* ГАРАНТИЯ */
+.guarantee-block{margin-top:20px;background:var(--accent-soft);border-radius:14px;padding:18px 20px;text-align:center}
+.guarantee-icon{font-size:28px;margin-bottom:4px}
+.guarantee-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px}
+.guarantee-text{font-size:13px;color:var(--sub);line-height:1.5}
+
+/* КНОПКА СВЕЧЕНИЕ */
+.btn-glow{animation:btnGlow 2.5s ease infinite}
+@keyframes btnGlow{0%,100%{box-shadow:0 4px 20px rgba(124,92,252,.25)}50%{box-shadow:0 4px 32px rgba(124,92,252,.5),0 0 12px rgba(124,92,252,.2)}}
+
+/* ОФФЕР */
+.offer{display:none;background:var(--card);border-radius:var(--radius);padding:32px 24px;margin-bottom:24px;text-align:center;border:1px solid var(--border);box-shadow:0 4px 24px rgba(0,0,0,.04)}
+.offer.vis{display:block;animation:fadeUp .6s cubic-bezier(.16,1,.3,1)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.offer-badge{display:inline-block;padding:6px 16px;border-radius:100px;background:var(--accent-soft);font-size:13px;font-weight:600;color:var(--accent);margin-bottom:16px}
+.offer-badge.urgent{animation:opulse 1.5s ease infinite}
+@keyframes opulse{0%,100%{opacity:1}50%{opacity:.5}}
+.offer-price-big{font-size:clamp(32px,8vw,48px);font-weight:800;color:var(--text);letter-spacing:-.03em;line-height:1}
+.offer-price-old{font-size:16px;color:var(--sub);text-decoration:line-through;margin-top:4px}
+.offer-next-price{font-size:13px;color:var(--sub);margin:8px 0 20px}
+.btn-main{display:block;width:100%;max-width:360px;margin:0 auto;padding:18px 24px;font-size:17px;font-weight:700;color:#fff;background:var(--accent);border:none;border-radius:14px;cursor:pointer;transition:all .2s;font-family:inherit;letter-spacing:-.01em}
+.btn-main:hover{transform:scale(1.02);box-shadow:0 8px 32px rgba(124,92,252,.35)}
+.btn-main:active{transform:scale(.98)}
+.offer-help{display:block;margin-top:10px;font-size:13px;color:var(--accent);text-decoration:none;cursor:pointer;font-weight:500;opacity:.8;transition:opacity .2s}
+.offer-help:hover{opacity:1}
+.offer-bottom{display:none}
+.offer-bottom.vis{display:block}
+
+/* ТОСТ */
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(120%);max-width:340px;width:calc(100% - 40px);background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:16px;padding:14px 20px;box-shadow:0 8px 32px rgba(0,0,0,.12);z-index:9000;opacity:0;transition:transform .5s cubic-bezier(.16,1,.3,1),opacity .5s ease;font-size:14px;color:var(--text)}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast-name{font-weight:700;color:var(--accent)}
+.toast-sub{font-size:11px;color:var(--sub);margin-top:2px}
+
+/* FAQ */
+.faq-sec{margin-bottom:24px}
+.faq-title{font-size:clamp(20px,4.5vw,28px);font-weight:800;text-align:center;margin-bottom:20px;letter-spacing:-.02em}
+.faq-cat{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);font-weight:600;margin:24px 0 10px;padding-left:4px}
+.faq-cat:first-child{margin-top:0}
+.faq-item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:8px;overflow:hidden;transition:box-shadow .2s}
+.faq-item:hover{box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.faq-q{padding:16px 20px;font-size:15px;font-weight:600;color:var(--text);cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none;gap:12px;line-height:1.4}
+.faq-q::after{content:'+';font-size:18px;color:var(--sub);transition:transform .3s;flex-shrink:0;font-weight:400}
+.faq-item.open .faq-q::after{transform:rotate(45deg);color:var(--accent)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.16,1,.3,1)}
+.faq-item.open .faq-a{max-height:600px}
+.faq-a-inner{padding:0 20px 18px}
+.faq-a-inner p{font-size:14px;color:var(--sub);line-height:1.65}
+.faq-btn{display:inline-block;margin-top:12px;padding:10px 24px;font-size:14px;font-weight:600;color:#fff;background:var(--accent);border:none;border-radius:100px;cursor:pointer;font-family:inherit;transition:all .2s}
+.faq-btn:hover{transform:scale(1.03)}
+.faq-btn-tg{background:#2AABEE;text-decoration:none;color:#fff}
+
+/* STICKY */
+.sticky{position:fixed;bottom:0;left:0;right:0;background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:12px 20px;z-index:8000;transform:translateY(100%);transition:transform .4s cubic-bezier(.16,1,.3,1);display:flex;align-items:center;justify-content:center;gap:12px}
+.sticky.vis{transform:translateY(0)}
+.sticky-btn{padding:14px 28px;font-size:15px;font-weight:700;color:#fff;background:var(--accent);border:none;border-radius:12px;cursor:pointer;font-family:inherit;transition:all .2s;flex-shrink:0}
+.sticky-btn:active{transform:scale(.96)}
+.sticky-g{font-size:11px;color:var(--sub);max-width:120px;line-height:1.3;font-weight:500}
+
+/* ОВЕРЛЕИ */
+.ovl{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:9999;justify-content:center;align-items:center;padding:20px}
+.ovl.act{display:flex}
+.ovl-card{background:var(--card);border-radius:var(--radius);padding:32px 24px;max-width:400px;width:100%;position:relative;text-align:center;max-height:90vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.15);animation:fadeUp .4s cubic-bezier(.16,1,.3,1)}
+.ovl-x{position:absolute;top:14px;right:18px;font-size:20px;cursor:pointer;color:var(--sub);background:none;border:none;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.ovl-x:hover{background:rgba(0,0,0,.05)}
+.ovl-title{font-size:20px;font-weight:700;margin-bottom:4px;letter-spacing:-.01em}
+.ovl-sub{font-size:14px;color:var(--sub);margin-bottom:12px}
+.ovl-deal{background:var(--accent-soft);border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:14px;color:var(--text)}
+.ovl-deal-old{text-decoration:line-through;color:var(--sub)}
+.ovl-deal b{color:var(--accent);font-weight:700}
+.ovl-deal-slots{font-size:12px;color:var(--accent);margin-top:4px;font-weight:600}
+.ovl-card input[type="text"]{width:100%;padding:16px 18px;margin-bottom:10px;border:1px solid var(--border);border-radius:12px;font-size:15px;font-family:inherit;background:var(--bg);transition:border-color .2s;color:var(--text);outline:none}
+.ovl-card input[type="text"]:focus{border-color:var(--accent)}
+.ovl-card input[type="text"]::placeholder{color:#bbb}
+.ovl-submit{width:100%;padding:16px;font-size:16px;font-weight:700;color:#fff;background:var(--accent);border:none;border-radius:12px;cursor:pointer;font-family:inherit;margin-top:4px;transition:all .2s}
+.ovl-submit:hover{opacity:.9}
+.ovl-submit:disabled{opacity:.5;cursor:not-allowed}
+.result-frame{width:100%;min-height:350px;border:none;border-radius:12px}
+
+/* EXIT */
+.exit{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:10000;justify-content:center;align-items:center;padding:20px}
+.exit.act{display:flex}
+.exit-card{background:var(--card);border-radius:var(--radius);padding:32px 24px;max-width:380px;width:100%;text-align:center;position:relative;box-shadow:0 24px 80px rgba(0,0,0,.15);animation:fadeUp .4s cubic-bezier(.16,1,.3,1)}
+.exit-card h3{font-size:18px;font-weight:700;margin-bottom:8px;letter-spacing:-.01em}
+.exit-card p{font-size:14px;color:var(--sub);margin-bottom:20px;line-height:1.55}
+.exit-buy{display:block;width:100%;padding:16px;font-size:16px;font-weight:700;color:#fff;background:var(--accent);border:none;border-radius:12px;cursor:pointer;font-family:inherit;margin-bottom:10px}
+.exit-faq{display:block;width:100%;padding:14px;font-size:14px;font-weight:600;color:var(--accent);background:none;border:1.5px solid rgba(124,92,252,.2);border-radius:12px;cursor:pointer;font-family:inherit}
+
+/* TG POPUP */
+.tg-pop{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);z-index:10001;justify-content:center;align-items:center;padding:20px}
+.tg-pop.act{display:flex}
+.tg-card{background:var(--card);border-radius:var(--radius);padding:32px 24px;max-width:360px;width:100%;text-align:center;position:relative;box-shadow:0 24px 80px rgba(0,0,0,.15);animation:fadeUp .4s cubic-bezier(.16,1,.3,1)}
+.tg-card p{font-size:14px;color:var(--sub);line-height:1.55;margin-bottom:18px}
+.tg-card p b{color:var(--text)}
+.tg-card a.tg-cta{display:inline-block;padding:16px 32px;font-size:16px;font-weight:700;color:#fff;background:#2AABEE;border-radius:12px;text-decoration:none;transition:all .2s}
+.tg-card a.tg-cta:hover{transform:scale(1.03)}
+
+/* ПОДВАЛ */
+.footer{display:flex;justify-content:center;gap:48px;padding:40px 0 0;border-top:1px solid var(--border);margin-top:40px}
+.footer-col{display:flex;flex-direction:column;gap:6px}
+.footer-heading{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--sub);font-weight:600;margin-bottom:4px}
+.footer-col a{font-size:13px;color:var(--text);text-decoration:none;opacity:.6;transition:opacity .2s}
+.footer-col a:hover{opacity:1}
+
+@media(max-width:600px){
+  .wrap{padding:16px 14px 110px}
+  .offer{padding:24px 18px}
+  .ovl-card,.exit-card,.tg-card{padding:24px 18px;border-radius:16px}
+  .faq-q{padding:14px 16px;font-size:14px}
+  .sticky{padding:10px 14px}
+  .toast{max-width:calc(100% - 28px);bottom:80px}
+  .footer{flex-direction:column;gap:24px;align-items:center;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<!-- STICKY TOP BAR -->
+<div class="top-bar" id="top-bar">
+  <div class="top-bar-inner">
+    <div class="top-bar-viewers"><span class="v-dot"></span><span id="vc">8</span> человек сейчас на странице</div>
+    <div class="top-bar-activity" id="top-activity"><span id="activity-text">Кто-то оформляет заказ...</span></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="anchor">Диагностика Отношений по системе Вялковой</div>
+
+  <h1 class="hero-t">Ни подруги, ни статьи, ни даже психолог не дали ответ — <em>почему он стал чужим?</em></h1>
+  <p class="hero-cta">Приходите на диагностику отношений</p>
+
+  <div class="features">
+    <div class="feat">
+      <div class="feat-icon">🔬</div>
+      <div class="feat-text"><b>Тест по 6 сферам</b> — находит, где именно сломалось</div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">🎯</div>
+      <div class="feat-text"><b>Колесо отношений</b> — наглядная карта вашей пары</div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">🛠</div>
+      <div class="feat-text"><b>Набор инструментов</b> — подобран под вас лично</div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">📋</div>
+      <div class="feat-text"><b>План на 2–3 месяца</b> — конкретные шаги, не советы</div>
+    </div>
+  </div>
+
+  <div class="vid-outer">
+    <div class="vid-wrap" id="vid-wrap">
+      <div class="vid-ratio"><div id="kinescope-player-wrap"></div></div>
+    </div>
+    <div class="play-hint" id="watch-hint">
+      <div class="play-hint-dot"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <span>Смотрите — Татьяна объяснит</span>
+    </div>
+  </div>
+
+  <!-- ОФФЕР -->
+  <div class="offer" id="offer">
+    <div class="offer-badge" id="offer-badge">Осталось 3 из 5 мест по 1 000 ₽</div>
+    <div class="offer-price-big" id="o-price">1 000 ₽</div>
+    <div class="offer-price-old">10 000 ₽</div>
+    <div class="offer-next-price" id="o-next">Следующая цена — 2 000 ₽</div>
+    <button class="btn-main btn-glow" id="o-btn">Занять место за 1 000 ₽</button>
+    <a class="offer-help" id="tg-link">Хочу на диагностику, но есть вопрос →</a>
+    <div class="guarantee-block">
+      <div class="guarantee-icon">🛡</div>
+      <div class="guarantee-title">100% гарантия возврата</div>
+      <div class="guarantee-text">Если сессия не принесёт пользы — вернём деньги без вопросов. Для вас это без риска</div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq-sec" id="faq-sec">
+    <div class="faq-title">Частые вопросы</div>
+    <div id="faq-list"></div>
+  </div>
+
+  <!-- ОФФЕР 2 (после FAQ) -->
+  <div class="offer offer-bottom" id="offer2">
+    <div class="offer-badge" id="offer-badge2">Осталось 3 из 5 мест по 1 000 ₽</div>
+    <div class="offer-price-big" id="o-price2">1 000 ₽</div>
+    <div class="offer-price-old">10 000 ₽</div>
+    <div class="offer-next-price" id="o-next2">Следующая цена — 2 000 ₽</div>
+    <button class="btn-main btn-glow" id="o-btn2">Занять место за 1 000 ₽</button>
+    <a class="offer-help" id="tg-link2">Хочу на диагностику, но есть вопрос →</a>
+    <div class="guarantee-block">
+      <div class="guarantee-icon">🛡</div>
+      <div class="guarantee-title">100% гарантия возврата</div>
+      <div class="guarantee-text">Если сессия не принесёт пользы — вернём деньги без вопросов. Для вас это без риска</div>
+    </div>
+  </div>
+
+  <!-- ПОДВАЛ -->
+  <footer class="footer">
+    <div class="footer-col">
+      <div class="footer-heading">Контакты</div>
+      <a href="mailto:support@fenomenata.ru">support@fenomenata.ru</a>
+      <a href="https://edu.fenomenata.ru/cms/system/contact">Форма обратной связи</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-heading">Информация</div>
+      <a href="https://edu.fenomenata.ru/politika_conf_r">Политика конфиденциальности</a>
+      <a href="https://edu.fenomenata.ru/terms-of-use">Пользовательское соглашение</a>
+    </div>
+  </footer>
+</div>
+<div class="sticky" id="sticky">
+  <button class="sticky-btn" id="s-btn">Занять место за 1 000 ₽</button>
+  <div class="sticky-g">🛡 Гарантия возврата</div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><span class="toast-name" id="t-name"></span> заняла место<div class="toast-sub">только что</div></div>
+
+<!-- FORM OVERLAY -->
+<div class="ovl" id="ovl-form">
+  <div class="ovl-card">
+    <button class="ovl-x" onclick="document.getElementById('ovl-form').classList.remove('act')">✕</button>
+    <div id="form-area">
+      <div class="ovl-title">Занять место</div>
+      <div class="ovl-sub" id="form-sub">Диагностическая сессия — 1 000 ₽</div>
+      <div class="ovl-deal" id="form-deal">
+        <span class="ovl-deal-old">10 000 ₽</span> → <b id="form-deal-price">1 000 ₽</b>
+        <div class="ovl-deal-slots" id="form-deal-slots">Вы забираете одно из последних 3 мест по этой цене</div>
+      </div>
+      <form id="mainForm">
+        <input type="hidden" name="formParams[setted_offer_id]">
+        <input type="hidden" name="formParams[willCreatePaidDeal]" value="">
+        <input type="hidden" name="__gc__internal__form__helper" class="gc-l" value="">
+        <input type="hidden" name="__gc__internal__form__helper_ref" class="gc-r" value="">
+        <input type="text" maxlength="60" placeholder="E-mail" name="formParams[email]">
+        <input type="text" maxlength="60" placeholder="Имя" name="formParams[full_name]">
+        <input type="text" maxlength="60" placeholder="Телефон" name="formParams[phone]">
+        <button type="submit" class="ovl-submit" id="m-sub">ОПЛАТИТЬ</button>
+        <input type="hidden" name="requestTime" value="">
+        <input type="hidden" name="requestSimpleSign" value="">
+        <input type="hidden" name="isHtmlWidget" value="1">
+      </form>
+    </div>
+    <div id="form-res" style="display:none"></div>
+  </div>
+</div>
+
+<!-- TATYANA OVERLAY -->
+<div class="ovl" id="ovl-tat">
+  <div class="ovl-card">
+    <button class="ovl-x" onclick="document.getElementById('ovl-tat').classList.remove('act')">✕</button>
+    <div id="tat-area">
+      <div class="ovl-title">Записаться к Татьяне</div>
+      <div class="ovl-sub">Консультативная встреча с Татьяной</div>
+      <div class="ovl-deal">
+        <span class="ovl-deal-old">15 000 ₽</span> → <b>5 000 ₽</b>
+        <div class="ovl-deal-slots" style="color:var(--sub)">Специальная цена на этой странице</div>
+      </div>
+      <form id="tatForm">
+        <input type="hidden" name="formParams[setted_offer_id]">
+        <input type="hidden" name="formParams[willCreatePaidDeal]" value="">
+        <input type="hidden" name="__gc__internal__form__helper" class="gc-l" value="">
+        <input type="hidden" name="__gc__internal__form__helper_ref" class="gc-r" value="">
+        <input type="text" maxlength="60" placeholder="E-mail" name="formParams[email]">
+        <input type="text" maxlength="60" placeholder="Имя" name="formParams[full_name]">
+        <input type="text" maxlength="60" placeholder="Телефон" name="formParams[phone]">
+        <button type="submit" class="ovl-submit" id="t-sub">ЗАПИСАТЬСЯ</button>
+        <input type="hidden" name="requestTime" value="1771611313">
+        <input type="hidden" name="requestSimpleSign" value="76b26f6b367354014accfe9949f7e082">
+        <input type="hidden" name="isHtmlWidget" value="1">
+      </form>
+    </div>
+    <div id="tat-res" style="display:none"></div>
+  </div>
+</div>
+
+<!-- EXIT -->
+<div class="exit" id="exit-pop">
+  <div class="exit-card">
+    <button class="ovl-x" onclick="document.getElementById('exit-pop').classList.remove('act')">✕</button>
+    <h3>Подождите — у вас есть кое-что важное</h3>
+    <p>Прямо сейчас вы можете занять место на диагностику по самой низкой цене. Через несколько минут она вырастет — и это не вернуть.</p>
+    <button class="exit-buy" id="ex-buy">Занять место за 1 000 ₽</button>
+    <button class="exit-faq" id="ex-faq">У меня есть вопросы</button>
+  </div>
+</div>
+
+<!-- TG -->
+<div class="tg-pop" id="tg-pop">
+  <div class="tg-card">
+    <button class="ovl-x" onclick="document.getElementById('tg-pop').classList.remove('act')">✕</button>
+    <p><b>Напишите помощнице Татьяны</b><br>Она ответит на все вопросы, поможет разобраться и подобрать удобное время</p>
+    <a class="tg-cta" href="https://t.me/tatyana_vyalkova_team" target="_blank">Написать в Telegram →</a>
+  </div>
+</div>
+
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+
+var LV=[
+  {p:1000,l:'1 000 ₽',nl:'После заполнения — цена вырастет до 2 000 ₽',act:'https://edu.fenomenata.ru/pl/lite/block-public/process-html?id=2212702205',sg:'34ebe714e3eb2fc01732dfab5a899b2e',rt:'1771145152'},
+  {p:2000,l:'2 000 ₽',nl:'После заполнения — цена вырастет до 3 000 ₽',act:'https://edu.fenomenata.ru/pl/lite/block-public/process-html?id=2213969796',sg:'213e65e22cdd3bf561e4baa547ac07f4',rt:'1771610681'},
+  {p:3000,l:'3 000 ₽',nl:'После заполнения — цена вырастет до 4 000 ₽',act:'https://edu.fenomenata.ru/pl/lite/block-public/process-html?id=2213970031',sg:'065d3695d20a5c9d8e0e6cba179e5a5e',rt:'1771610868'},
+  {p:4000,l:'4 000 ₽',nl:'После заполнения — цена вырастет до 5 000 ₽',act:'https://edu.fenomenata.ru/pl/lite/block-public/process-html?id=2213970172',sg:'686c6d98e391e887e1348b1316043436',rt:'1771610943'},
+  {p:5000,l:'5 000 ₽',nl:'Это последняя доступная цена',act:'https://edu.fenomenata.ru/pl/lite/block-public/process-html?id=2213970228',sg:'0798faa83f39f1c71ec7a9d19cfd5ead',rt:'1771610998'}
+];
+
+var TS=[
+  {t:120,lv:0},{t:300,lv:0},{t:480,lv:0},
+  {t:540,lv:1},{t:660,lv:1},{t:780,lv:1},{t:900,lv:1},{t:1020,lv:1},
+  {t:1100,lv:2},{t:1250,lv:2},{t:1400,lv:2},{t:1560,lv:2},{t:1720,lv:2},
+  {t:1840,lv:3},{t:2010,lv:3},{t:2190,lv:3},{t:2370,lv:3},{t:2560,lv:3}
+];
+
+var NM=['Дарья','Кристина','Марина','Полина','Регина','Алина','Вероника','Карина','Диана','Лариса','Оксана','Яна','Жанна','Инна','Валерия','Снежана','Милана','Камила','Арина','Злата','Евгения','Анжелика','Элина','Стефания','Виолетта','Лилия','Нелли','Аделина','Софья','Кира'];
+function shuf(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+var nm=shuf(NM.slice()),ni=0;
+function nn(){if(ni>=nm.length)ni=0;return nm[ni++]}
+
+var KD='fd_s1',KDY='fd_d1',td=new Date().toDateString();
+if(localStorage.getItem(KDY)!==td){localStorage.removeItem(KD);localStorage.setItem(KDY,td)}
+var st=JSON.parse(localStorage.getItem(KD)||'null')||{lv:0,sl:3,on:false,ost:null,ti:0,ex:false};
+function sv(){localStorage.setItem(KD,JSON.stringify(st))}
+
+var cl=st.lv,cs=st.sl,ov=false,ort=null,fq=0;
+
+function upUI(){
+  var v=LV[cl];
+  $('o-price').textContent=v.l;
+  $('o-btn').textContent='Занять место за '+v.l;
+  $('form-sub').textContent='Диагностическая сессия — '+v.l;
+  $('s-btn').textContent='Занять место за '+v.l;
+  $('ex-buy').textContent='Занять место за '+v.l;
+  /* offer2 */
+  $('o-price2').textContent=v.l;
+  $('o-btn2').textContent='Занять место за '+v.l;
+  if(cl<4){
+    $('o-next').textContent='Следующая цена — '+LV[cl+1].l;
+    $('o-next2').textContent='Следующая цена — '+LV[cl+1].l;
+  } else {
+    $('o-next').textContent='Это последняя доступная цена';
+    $('o-next2').textContent='Это последняя доступная цена';
+  }
+  if(cs<=1){
+    $('offer-badge').textContent='🔥 Последнее место по '+v.l;
+    $('offer-badge').classList.add('urgent');
+    $('offer-badge2').textContent='🔥 Последнее место по '+v.l;
+    $('offer-badge2').classList.add('urgent');
+  } else {
+    $('offer-badge').textContent='Осталось '+cs+' из 5 мест по '+v.l;
+    $('offer-badge').classList.remove('urgent');
+    $('offer-badge2').textContent='Осталось '+cs+' из 5 мест по '+v.l;
+    $('offer-badge2').classList.remove('urgent');
+  }
+}
+
+function showOff(){
+  if(ov)return;ov=true;st.on=true;
+  if(!st.ost)st.ost=Date.now();
+  ort=st.ost;sv();
+  $('offer').classList.add('vis');
+  $('offer2').classList.add('vis');
+  $('top-bar').classList.add('vis');
+  document.querySelector('.wrap').classList.add('has-topbar');
+  setTimeout(checkStickyVis,100);
+  setTimeout(startActivity,15000);
+  upUI();startTE();
+}
+
+function nxtLv(){if(cl>=4)return;cl++;cs=5;st.lv=cl;st.sl=cs;sv();upUI()}
+function occSlot(){if(cs<=0)return;cs--;st.sl=cs;if(cs<=0){sv();nxtLv()}else{sv();upUI()}}
+
+var tt=null;
+function startTE(){if(!ort)return;procT()}
+function procT(){
+  var el=(Date.now()-ort)/1000;
+  while(st.ti<TS.length&&TS[st.ti].t<=el-6){occSlot();st.ti++;sv()}
+  upUI();schedT();
+}
+function schedT(){
+  if(st.ti>=TS.length)return;
+  var el=(Date.now()-ort)/1000,nx=TS[st.ti],dl=(nx.t-el)*1000;
+  if(dl<0)dl=0;
+  tt=setTimeout(function(){
+    showT(nn());occSlot();st.ti++;sv();schedT();
+  },dl);
+}
+function showT(n){pauseActivity();$('t-name').textContent=n;$('toast').classList.add('show');setTimeout(function(){$('toast').classList.remove('show');setTimeout(startActivity,3000)},5000)}
+
+/* early toasts */
+setTimeout(function(){if(!ov)showT(nn())},25000);
+setTimeout(function(){if(!ov)showT(nn())},210000);
+
+if(st.on){showOff()}else{setTimeout(showOff,120000)}
+
+/* ACTIVITY INDICATOR — cycles between toasts */
+var actMsgs=['Кто-то сейчас оформляет заказ...','Место оформляется, поторопитесь...','Кто-то сейчас записывается...'];
+var actEl=$('top-activity'),actTxt=$('activity-text'),actIdx=0,actTimer=null;
+function startActivity(){
+  if(!ov)return;
+  $('top-bar').classList.add('vis');
+  actEl.classList.add('vis');
+  actIdx=Math.floor(Math.random()*actMsgs.length);
+  actTxt.textContent=actMsgs[actIdx];
+  actTimer=setInterval(function(){
+    actIdx=(actIdx+1)%actMsgs.length;
+    actTxt.textContent=actMsgs[actIdx];
+  },8000);
+}
+function pauseActivity(){if(actTimer){clearInterval(actTimer);actTimer=null}actEl.classList.remove('vis')}
+/* Start activity 15s after offer appears */
+var origShowOff=showOff;
+
+/* PLAY HINT — click to start video */
+$('watch-hint').addEventListener('click',function(){
+  if(kp){try{kp.play()}catch(e){}}
+});
+
+/* VIEWERS */
+var vd=false,lvu=0,cv=6+Math.floor(Math.random()*5);
+$('vc').textContent=cv;
+function upV(ct){if(!vd){vd=true;lvu=ct;return}if(ct<lvu){lvu=ct;cv=5+Math.floor(Math.random()*8);$('vc').textContent=cv;return}if(ct-lvu>=180+Math.floor(Math.random()*120)){lvu=ct;cv=5+Math.floor(Math.random()*8);$('vc').textContent=cv}}
+
+/* KINESCOPE */
+var kp=null,ah=false;
+var scr=document.createElement('script');scr.src='https://player.kinescope.io/latest/iframe.player.js';
+document.getElementsByTagName('script')[0].parentNode.insertBefore(scr,document.getElementsByTagName('script')[0]);
+window.onKinescopeIframeAPIReady=function(f){
+  f.create('kinescope-player-wrap',{url:'https://kinescope.io/oAXuALyw3AS48eQxsG2cBy',size:{width:'100%',height:'100%'}}).then(function(p){
+    kp=p;
+    var ifr=document.querySelector('#kinescope-player-wrap iframe');
+    if(ifr){ifr.style.position='absolute';ifr.style.top='0';ifr.style.left='0';ifr.style.width='100%';ifr.style.height='100%'}
+    p.on(p.Events.Playing,function(){if(!ah){ah=true;$('watch-hint').style.display='none'}});
+    p.on(p.Events.Ended,function(){
+      showOff();
+      setTimeout(function(){$('offer').scrollIntoView({behavior:'smooth',block:'center'})},300);
+    });
+    var vo=false;
+    p.on(p.Events.TimeUpdate,function(e){
+      var ct=e.data&&e.data.currentTime!==undefined?e.data.currentTime:(e.currentTime||0);
+      upV(Math.floor(ct));
+      if(ct>=120&&!vo){vo=true;showOff()}
+    });
+  });
+};
+
+/* FORMS */
+function openForm(){
+  var v=LV[cl];
+  $('form-sub').textContent='Диагностическая сессия — '+v.l;
+  $('form-deal-price').textContent=v.l;
+  if(cs<=1){
+    $('form-deal-slots').textContent='Вы забираете последнее место по этой цене!';
+  } else {
+    $('form-deal-slots').textContent='Вы забираете одно из последних '+cs+' мест по этой цене';
+  }
+  $('mainForm').querySelector('input[name="requestSimpleSign"]').value=v.sg;
+  $('mainForm').querySelector('input[name="requestTime"]').value=v.rt;
+  $('ovl-form').classList.add('act');
+}
+
+function sendForm(form,action,btn,area,res){
+  form.querySelectorAll('.gc-l').forEach(function(e){e.value=location.href});
+  form.querySelectorAll('.gc-r').forEach(function(e){e.value=document.referrer});
+  btn.disabled=true;btn.textContent='Отправка...';
+  fetch(action,{method:'POST',body:new FormData(form)})
+    .then(function(r){return r.text()}).then(function(h){
+      area.style.display='none';res.style.display='block';
+      var ifr=document.createElement('iframe');ifr.className='result-frame';
+      res.appendChild(ifr);ifr.contentDocument.open();ifr.contentDocument.write(h);ifr.contentDocument.close();
+    }).catch(function(){btn.disabled=false;btn.textContent='ОПЛАТИТЬ';alert('Ошибка, попробуйте ещё раз')});
+}
+
+$('mainForm').addEventListener('submit',function(e){e.preventDefault();sendForm($('mainForm'),LV[cl].act,$('m-sub'),$('form-area'),$('form-res'))});
+$('tatForm').addEventListener('submit',function(e){e.preventDefault();sendForm($('tatForm'),'https://edu.fenomenata.ru/pl/lite/block-public/process-html?id=2213970580',$('t-sub'),$('tat-area'),$('tat-res'))});
+
+$('o-btn').addEventListener('click',openForm);
+$('o-btn2').addEventListener('click',openForm);
+$('s-btn').addEventListener('click',function(){$('offer').scrollIntoView({behavior:'smooth'})});
+
+/* Hide sticky when either offer block is visible on screen */
+var stickyEl=$('sticky'),offerEl=$('offer'),offer2El=$('offer2');
+function checkStickyVis(){
+  if(!ov){stickyEl.classList.remove('vis');return}
+  var r1=offerEl.getBoundingClientRect();
+  var r2=offer2El.getBoundingClientRect();
+  var in1=r1.top<window.innerHeight&&r1.bottom>0;
+  var in2=r2.top<window.innerHeight&&r2.bottom>0;
+  if(in1||in2){stickyEl.classList.remove('vis')}else{stickyEl.classList.add('vis')}
+}
+window.addEventListener('scroll',checkStickyVis);
+window.addEventListener('resize',checkStickyVis);
+$('ovl-form').addEventListener('click',function(e){if(e.target===$('ovl-form'))$('ovl-form').classList.remove('act')});
+$('ovl-tat').addEventListener('click',function(e){if(e.target===$('ovl-tat'))$('ovl-tat').classList.remove('act')});
+$('tg-link').addEventListener('click',function(e){e.preventDefault();$('tg-pop').classList.add('act')});
+$('tg-link2').addEventListener('click',function(e){e.preventDefault();$('tg-pop').classList.add('act')});
+$('tg-pop').addEventListener('click',function(e){if(e.target===$('tg-pop'))$('tg-pop').classList.remove('act')});
+
+/* EXIT — desktop cursor only */
+var exS=st.ex;
+function showExit(){if(exS)return;exS=true;st.ex=true;sv();upUI();$('exit-pop').classList.add('act')}
+document.addEventListener('mouseout',function(e){if(e.clientY<5&&!e.relatedTarget)showExit()});
+
+$('exit-pop').addEventListener('click',function(e){if(e.target===$('exit-pop'))$('exit-pop').classList.remove('act')});
+$('ex-buy').addEventListener('click',function(){$('exit-pop').classList.remove('act');showOff();openForm()});
+$('ex-faq').addEventListener('click',function(){$('exit-pop').classList.remove('act');$('faq-sec').scrollIntoView({behavior:'smooth'})});
+
+/* FAQ */
+var FAQ_CATS=[
+  {cat:'О диагностике',items:[
+    {q:'Что такое диагностическая сессия?',a:'Это 1,5–2 часа работы один на один с психологом-женщиной из команды Татьяны. Вы разбираете свою ситуацию, проходите тест по 6 ключевым сферам отношений — выбор мужчины, коммуникация, близость, вклад мужчины, самоценность, совместное будущее. В результате получаете «колесо отношений», которое наглядно показывает, где у вас всё хорошо, а где провал. Плюс персональный план действий на 2–3 месяца и оформленную диагностическую карту.'},
+    {q:'Что конкретно я получу?',a:'Тест-диагностику по 6 сферам и персональное «колесо отношений». Ваши 3 сильные и 3 слабые стороны. Персональный набор инструментов. Пошаговый план на 2–3 месяца. И диагностическую карту, к которой можно возвращаться.'},
+    {q:'Кто проводит сессию?',a:'Психолог-женщина из команды Татьяны, которую Татьяна лично обучала по своей методике. Она глубоко понимает женские истории и умеет мягко, но честно их разбирать.'},
+    {q:'Хочу попасть к Татьяне лично',a:'Да, это возможно. Ваша встреча с Татьяной будет консультативной, а при необходимости вас дополнительно запишут на диагностику.',c:'tat'}
+  ]},
+  {cat:'Подойдёт ли мне',items:[
+    {q:'Кому подойдёт?',a:'Вам, если вы чувствуете, что мужчина отдалился — нет контакта, разговоры заканчиваются ссорами или тишиной, нет близости и тепла. Если тянете на себе быт, детей и заботу, но не чувствуете отдачи. Если не понимаете — сохранять отношения или уходить. Если хотите создать новые отношения, но раз за разом выбираете не тех.'},
+    {q:'Кому НЕ подойдёт?',a:'Тем, кто ждёт один волшебный совет, после которого мужчина вдруг всё поймёт и изменится. Тем, кто хочет «просто послушать», но ничего менять не готов. И тем, кто уверен, что виноват только мужчина — на сессии мы честно разбираем то, что можете изменить именно вы.'},
+    {q:'Была измена — подойдёт?',a:'Да. Измена — одна из самых частых ситуаций. Тест покажет, что привело к этой точке и есть ли фундамент для восстановления.'},
+    {q:'На грани развода — не поздно?',a:'Не поздно. Диагностика помогает понять: бороться или отпустить. В обоих случаях — ясность и план.'},
+    {q:'Нет отношений — подойдёт?',a:'Да. Разбирают, почему не складывается, какие паттерны повторяете, что саботирует создание пары.'},
+    {q:'Мой случай слишком сложный',a:'На сессиях разбирали измены, разводы, созависимость, абьюз, ситуации «живём как соседи». Тест работает с любой историей. Если случай за рамками — деньги вернут.'},
+    {q:'А если мужчина — абьюзер?',a:'Диагностика покажет и это. Если выявит абьюз — получите стратегию безопасного выхода, а не план «как его вернуть».'},
+    {q:'Мне уже за 50 — не поздно?',a:'Возраст не имеет значения. Приходят от 25 до 65+. Дело не в возрасте, а в готовности перестать терпеть.'}
+  ]},
+  {cat:'Оплата и запись',items:[
+    {q:'Сколько стоит?',a:'Обычная стоимость — 10 000 ₽. На этой странице действует специальная цена, которая растёт по мере заполнения мест. Самая низкая — 1 000 ₽, но мест ограниченное количество. Когда закончатся — цена вырастет.'},
+    {q:'1 000 рублей — подозрительно дешево',a:'Как стоматология: диагностика стоит недорого, потому что процесс отточен. Методика одна, а результат — всегда персональный под вашу историю.'},
+    {q:'Можно записаться позже?',a:'Цена растёт по мере заполнения мест. Сейчас — самая низкая. Когда закончатся — вырастет, вернуть нельзя. Максимальная — 5 000 ₽, обычная — 10 000 ₽. Сессия длится 2 часа, а ясность, которую она даёт, меняет всё.'},
+    {q:'Как попасть на сессию?',a:'После просмотра видео появится кнопка «Занять место». Если ещё не появилась — нажмите кнопку ниже.',c:'off'},
+    {q:'Что будет после оплаты?',a:'Сразу придёт анкета — опишете ситуацию, чтобы на встрече идти в суть. Потом помощница поможет выбрать день и время. Сессия онлайн в Zoom.'},
+    {q:'Не смогу прийти в назначенное время',a:'Напишите помощнице — перенесёт без доплат. Оплата сохраняется.'},
+    {q:'А если результат не устроит?',a:'100% гарантия возврата. Если сессия не принесёт пользы — деньги вернут без вопросов.'},
+    {q:'Будут ли мне что-то продавать?',a:'Никакого давления. Примерно 70% женщин после диагностики вообще не получают предложение продолжения. Вы в любом случае уходите с планом и инструментами.'}
+  ]},
+  {cat:'Как проходит сессия',items:[
+    {q:'Два часа — долго, нет времени',a:'Сессия онлайн — хоть когда дети уснут. Помощница подберёт удобное время. Эти 2 часа заменят месяцы прокручивания одних и тех же мыслей.'},
+    {q:'Можно только голосом без камеры?',a:'Как комфортнее. На качество работы не влияет.'},
+    {q:'Нужно ли готовиться?',a:'Нет. После оплаты придёт анкета — заполните, и этого достаточно.'},
+    {q:'Можно прийти вдвоём с мужем?',a:'Диагностика — работа с вами один на один. Так вы говорите открыто, без оглядки.'},
+    {q:'Это конфиденциально?',a:'Полностью. Сессия один на один в Zoom. Ваш мужчина не узнает, если вы сами не расскажете.'},
+    {q:'Мужчина узнает — будет скандал',a:'Не узнает. Онлайн, в удобное время. Никаких звонков и писем. Многие проходят тихо, для себя.'}
+  ]},
+  {cat:'Сомнения и страхи',items:[
+    {q:'Вдруг станет хуже?',a:'Первые шаги настолько мягкие, что мужчина даже не заметит, что вы что-то делаете иначе — а атмосфера начнёт меняться.'},
+    {q:'Боюсь услышать, что безнадёжно',a:'Задача — не приговор, а реальная картина. Иногда она лучше, чем кажется. В любом случае — план, что делать дальше.'},
+    {q:'У нас не так всё плохо — стоит ли ворошить?',a:'Если вы на этой странице — что-то внутри сигналит. Мелкие трещины не проходят сами. Поймать на раннем этапе — в разы проще.'},
+    {q:'Стыдно рассказывать свою ситуацию',a:'Нормальное чувство — проходит за 10 минут. Специалист не оценивает. Многие впервые смогли сказать вслух то, что носили месяцами.'},
+    {q:'Не умею говорить о чувствах',a:'Не нужно красиво формулировать. Специалист задаёт конкретные вопросы. Многие приходят со словами «не знаю, что сказать» — через 20 минут не могут остановиться.'},
+    {q:'Вдруг расплачусь',a:'Плакать нормально. После слёз приходит ясность. Ни одна сессия не сорвалась из-за слёз.'},
+    {q:'Я уже знаю проблему — нужно решение',a:'Часто то, что кажется проблемой — симптом. Тест покажет корень. Если правы — получите инструменты.'},
+    {q:'Что если пойму, что нужно уходить — а не готова?',a:'Диагностика не принимает решений за вас. Она даёт ясность. Многие говорят, что именно ясность дала силы — и не всегда уйти, часто остаться и действовать по-другому.'},
+    {q:'Перепробовала всё — не верю',a:'Книги дают общие советы. Диагностика — разбор вашей конкретной пары. Разница — как между учебником и личным обследованием у врача.'},
+    {q:'Я считаю, что психологи — развод на деньги',a:'Именно поэтому гарантия возврата. Попробуйте по системе — тест, колесо, план. Если бесполезно — деньги вернутся.'},
+    {q:'Не хочу, чтобы лезли в голову',a:'Никто не лезет. Вы проходите тест, видите результаты, сами делаете выводы. Это структурированный разбор, не гипноз.'},
+    {q:'Мне уже ничего не поможет',a:'Это чувство знакомо почти каждой, кто приходит. Оно значит, что вы устали искать выход в одиночку. Если не поможет — вернём деньги.'},
+    {q:'Я уже ходила к психологу — не помогло',a:'Диагностическая сессия — не терапия на месяцы. За одну встречу вы проходите тест по 6 сферам и получаете план. Многие говорят, что за 2 часа получили больше ясности, чем за полгода у терапевта.'}
+  ]},
+  {cat:'Остались вопросы?',items:[
+    {q:'У меня остались вопросы',a:'Напишите помощнице Татьяны — она ответит и поможет с записью.',c:'tg'}
+  ]}
+];
+
+var fl=$('faq-list');
+FAQ_CATS.forEach(function(cat){
+  var h=document.createElement('div');h.className='faq-cat';h.textContent=cat.cat;fl.appendChild(h);
+  cat.items.forEach(function(it){
+    var d=document.createElement('div');d.className='faq-item';
+    var q=document.createElement('div');q.className='faq-q';q.textContent=it.q;
+    var a=document.createElement('div');a.className='faq-a';
+    var ai=document.createElement('div');ai.className='faq-a-inner';
+    var p=document.createElement('p');p.textContent=it.a;ai.appendChild(p);
+    if(it.c==='tat'){var b=document.createElement('button');b.className='faq-btn';b.textContent='Записаться к Татьяне';b.onclick=function(){$('ovl-tat').classList.add('act')};ai.appendChild(b)}
+    if(it.c==='off'){var b2=document.createElement('button');b2.className='faq-btn';b2.textContent='Открыть запись';b2.onclick=function(){showOff();$('offer').scrollIntoView({behavior:'smooth'})};ai.appendChild(b2)}
+    if(it.c==='tg'){var b3=document.createElement('a');b3.className='faq-btn faq-btn-tg';b3.textContent='Написать в Telegram →';b3.href='https://t.me/tatyana_vyalkova_team';b3.target='_blank';ai.appendChild(b3)}
+    a.appendChild(ai);d.appendChild(q);d.appendChild(a);fl.appendChild(d);
+    q.addEventListener('click',function(){var w=d.classList.contains('open');d.classList.toggle('open');if(!w){fq++;if(fq>=3&&ov){$('s-btn').textContent='Вы уже всё узнали — осталось занять место за '+LV[cl].l}}});
+  });
+});
+
+document.querySelectorAll('.gc-l').forEach(function(e){e.value=location.href});
+document.querySelectorAll('.gc-r').forEach(function(e){e.value=document.referrer});
+})();
+</script>
+</body>
+</html>
