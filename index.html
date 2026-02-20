@@ -572,15 +572,26 @@ $('s-btn').addEventListener('click',function(){openForm()});
 /* Hide sticky when either offer block is visible on screen */
 var stickyEl=$('sticky'),offerEl=$('offer'),offer2El=$('offer2');
 function checkStickyVis(){
-  if(!ov){stickyEl.classList.remove('vis');return}
+  if(!ov){stickyEl.classList.remove('vis');try{window.parent.postMessage('hideSticky','*')}catch(e){}return}
   var r1=offerEl.getBoundingClientRect();
   var r2=offer2El.getBoundingClientRect();
   var in1=r1.top<window.innerHeight&&r1.bottom>0;
   var in2=r2.top<window.innerHeight&&r2.bottom>0;
-  if(in1||in2){stickyEl.classList.remove('vis')}else{stickyEl.classList.add('vis')}
+  if(in1||in2){
+    stickyEl.classList.remove('vis');
+    try{window.parent.postMessage('hideSticky','*')}catch(e){}
+  }else{
+    stickyEl.classList.add('vis');
+    try{window.parent.postMessage('showSticky','*')}catch(e){}
+  }
 }
 window.addEventListener('scroll',checkStickyVis);
 window.addEventListener('resize',checkStickyVis);
+
+/* Listen for openForm from parent (GetCourse sticky button) */
+window.addEventListener('message',function(e){
+  if(e.data==='openForm')openForm();
+});
 $('ovl-form').addEventListener('click',function(e){if(e.target===$('ovl-form'))$('ovl-form').classList.remove('act')});
 $('ovl-tat').addEventListener('click',function(e){if(e.target===$('ovl-tat'))$('ovl-tat').classList.remove('act')});
 $('tg-link').addEventListener('click',function(e){e.preventDefault();$('tg-pop').classList.add('act')});
