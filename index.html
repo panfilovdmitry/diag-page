@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://kinescope.io">
+<link rel="preconnect" href="https://player.kinescope.io">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -12,8 +14,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.5}
-.wrap{max-width:680px;margin:0 auto;padding:24px 20px 120px;transition:padding-top .4s}
-.wrap.has-topbar{padding-top:60px}
+.wrap{max-width:680px;margin:0 auto;padding:24px 20px 120px}
 
 /* ЯКОРЬ */
 .anchor{text-align:center;font-size:12px;letter-spacing:.04em;color:var(--sub);margin-bottom:24px;text-transform:uppercase;font-weight:500}
@@ -28,6 +29,11 @@ body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:var(--b
 .vid-ratio{position:relative;width:100%;padding-top:56.25%}
 #kinescope-player-wrap{position:absolute;top:0;left:0;width:100%;height:100%}
 #kinescope-player-wrap iframe{width:100%!important;height:100%!important;border:none}
+.vid-poster{position:absolute;top:0;left:0;width:100%;height:100%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;transition:opacity .4s}
+.vid-poster.hidden{opacity:0;pointer-events:none}
+.vid-poster-btn{width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(0,0,0,.3);transition:transform .2s}
+.vid-poster-btn:hover{transform:scale(1.1)}
+.vid-poster-btn svg{width:24px;height:24px;fill:#1a1a1a;margin-left:3px}
 
 /* СТРЕЛКА */
 .vid-outer{position:relative;margin-bottom:24px}
@@ -46,9 +52,8 @@ body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:var(--b
 .feat-text b{color:var(--text);font-weight:700}
 @media(max-width:420px){.features{grid-template-columns:1fr}.feat{padding:14px}}
 
-/* STICKY TOP BAR */
-.top-bar{position:fixed;top:0;left:0;right:0;z-index:7500;background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);transform:translateY(-100%);transition:transform .4s cubic-bezier(.16,1,.3,1)}
-.top-bar.vis{transform:translateY(0)}
+/* TOP BAR — всегда видна, sticky для iframe */
+.top-bar{position:sticky;top:0;left:0;right:0;z-index:7500;background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
 .top-bar-inner{max-width:680px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:8px 20px;font-size:12px;font-weight:500}
 .top-bar-viewers{display:flex;align-items:center;gap:5px;color:var(--sub)}
 .v-dot{width:6px;height:6px;background:#34c759;border-radius:50%;animation:vp 2s ease infinite;flex-shrink:0}
@@ -112,8 +117,8 @@ body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:var(--b
 .faq-btn-tg{background:#2AABEE;text-decoration:none;color:#fff}
 
 /* STICKY */
-.sticky{position:fixed;bottom:0;left:0;right:0;background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:12px 20px;z-index:8000;transform:translateY(100%);transition:transform .4s cubic-bezier(.16,1,.3,1);display:flex;align-items:center;justify-content:center;gap:12px}
-.sticky.vis{transform:translateY(0)}
+.sticky{position:fixed;bottom:0;left:0;right:0;background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:12px 20px;z-index:8000;display:none;align-items:center;justify-content:center;gap:12px}
+.sticky.vis{display:flex}
 .sticky-btn{padding:14px 28px;font-size:15px;font-weight:700;color:#fff;background:var(--accent);border:none;border-radius:12px;cursor:pointer;font-family:inherit;transition:all .2s;flex-shrink:0}
 .sticky-btn:active{transform:scale(.96)}
 .sticky-g{font-size:11px;color:var(--sub);max-width:120px;line-height:1.3;font-weight:500}
@@ -176,7 +181,7 @@ body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:var(--b
 </head>
 <body>
 
-<!-- STICKY TOP BAR -->
+<!-- TOP BAR -->
 <div class="top-bar" id="top-bar">
   <div class="top-bar-inner">
     <div class="top-bar-viewers"><span class="v-dot"></span><span id="vc">8</span> человек сейчас на странице</div>
@@ -211,7 +216,12 @@ body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:var(--b
 
   <div class="vid-outer">
     <div class="vid-wrap" id="vid-wrap">
-      <div class="vid-ratio"><div id="kinescope-player-wrap"></div></div>
+      <div class="vid-ratio">
+        <div id="kinescope-player-wrap"></div>
+        <div class="vid-poster" id="vid-poster">
+          <div class="vid-poster-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </div>
+      </div>
     </div>
     <div class="play-hint" id="watch-hint">
       <div class="play-hint-dot"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
@@ -423,8 +433,6 @@ function showOff(){
   ort=st.ost;sv();
   $('offer').classList.add('vis');
   $('offer2').classList.add('vis');
-  $('top-bar').classList.add('vis');
-  document.querySelector('.wrap').classList.add('has-topbar');
   setTimeout(checkStickyVis,100);
   setTimeout(startActivity,15000);
   upUI();startTE();
@@ -461,7 +469,6 @@ var actMsgs=['Кто-то сейчас оформляет заказ...','Мес
 var actEl=$('top-activity'),actTxt=$('activity-text'),actIdx=0,actTimer=null;
 function startActivity(){
   if(!ov)return;
-  $('top-bar').classList.add('vis');
   actEl.classList.add('vis');
   actIdx=Math.floor(Math.random()*actMsgs.length);
   actTxt.textContent=actMsgs[actIdx];
@@ -488,12 +495,22 @@ function upV(ct){if(!vd){vd=true;lvu=ct;return}if(ct<lvu){lvu=ct;cv=5+Math.floor
 var kp=null,ah=false;
 var scr=document.createElement('script');scr.src='https://player.kinescope.io/latest/iframe.player.js';
 document.getElementsByTagName('script')[0].parentNode.insertBefore(scr,document.getElementsByTagName('script')[0]);
+
+/* Poster click — start video when ready */
+$('vid-poster').addEventListener('click',function(){
+  if(kp){try{kp.play()}catch(e){}}
+  $('vid-poster').classList.add('hidden');
+});
+
 window.onKinescopeIframeAPIReady=function(f){
-  f.create('kinescope-player-wrap',{url:'https://kinescope.io/oAXuALyw3AS48eQxsG2cBy',size:{width:'100%',height:'100%'}}).then(function(p){
+  f.create('kinescope-player-wrap',{url:'https://kinescope.io/oAXuALyw3AS48eQxsG2cBy',size:{width:'100%',height:'100%'},behaviour:{autoPlay:false}}).then(function(p){
     kp=p;
     var ifr=document.querySelector('#kinescope-player-wrap iframe');
     if(ifr){ifr.style.position='absolute';ifr.style.top='0';ifr.style.left='0';ifr.style.width='100%';ifr.style.height='100%'}
-    p.on(p.Events.Playing,function(){if(!ah){ah=true;$('watch-hint').style.display='none'}});
+    p.on(p.Events.Playing,function(){
+      if(!ah){ah=true;$('watch-hint').style.display='none'}
+      $('vid-poster').classList.add('hidden');
+    });
     p.on(p.Events.Ended,function(){
       showOff();
       setTimeout(function(){$('offer').scrollIntoView({behavior:'smooth',block:'center'})},300);
