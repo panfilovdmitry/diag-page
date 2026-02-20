@@ -130,9 +130,9 @@ body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:var(--b
 .ovl-deal-old{text-decoration:line-through;color:var(--sub)}
 .ovl-deal b{color:var(--accent);font-weight:700}
 .ovl-deal-slots{font-size:12px;color:var(--accent);margin-top:4px;font-weight:600}
-.ovl-card input[type="text"]{width:100%;padding:16px 18px;margin-bottom:10px;border:1px solid var(--border);border-radius:12px;font-size:15px;font-family:inherit;background:var(--bg);transition:border-color .2s;color:var(--text);outline:none}
-.ovl-card input[type="text"]:focus{border-color:var(--accent)}
-.ovl-card input[type="text"]::placeholder{color:#bbb}
+.ovl-card input[type="text"],.ovl-card input[type="email"],.ovl-card input[type="tel"]{width:100%;padding:16px 18px;margin-bottom:10px;border:1px solid var(--border);border-radius:12px;font-size:15px;font-family:inherit;background:var(--bg);transition:border-color .2s;color:var(--text);outline:none}
+.ovl-card input[type="text"]:focus,.ovl-card input[type="email"]:focus,.ovl-card input[type="tel"]:focus{border-color:var(--accent)}
+.ovl-card input[type="text"]::placeholder,.ovl-card input[type="email"]::placeholder,.ovl-card input[type="tel"]::placeholder{color:#bbb}
 .ovl-submit{width:100%;padding:16px;font-size:16px;font-weight:700;color:#fff;background:var(--accent);border:none;border-radius:12px;cursor:pointer;font-family:inherit;margin-top:4px;transition:all .2s}
 .ovl-submit:hover{opacity:.9}
 .ovl-submit:disabled{opacity:.5;cursor:not-allowed}
@@ -563,7 +563,7 @@ $('tatForm').addEventListener('submit',function(e){e.preventDefault();sendForm($
 
 $('o-btn').addEventListener('click',openForm);
 $('o-btn2').addEventListener('click',openForm);
-$('s-btn').addEventListener('click',function(){$('offer').scrollIntoView({behavior:'smooth'})});
+$('s-btn').addEventListener('click',function(){openForm()});
 
 /* Hide sticky when either offer block is visible on screen */
 var stickyEl=$('sticky'),offerEl=$('offer'),offer2El=$('offer2');
